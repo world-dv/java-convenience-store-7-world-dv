@@ -6,11 +6,22 @@ public class ItemGenerator {
 
     public ItemGenerator(String itemPackage) {
         validatePackage(itemPackage);
+        validatePackageCount(itemPackage);
         this.item = removePackage(itemPackage);
     }
 
+    private boolean checkPackageCount(String itemPackage) {
+        return itemPackage.indexOf("[") != itemPackage.lastIndexOf("[") || itemPackage.indexOf("]") != itemPackage.lastIndexOf("]");
+    }
+
+    private void validatePackageCount(String itemPackage) {
+        if (checkPackageCount(itemPackage)) {
+            throw new IllegalArgumentException();
+        }
+    }
+
     private boolean checkPackage(String itemPackage) {
-        return itemPackage.charAt(0) != '[' || itemPackage.charAt(itemPackage.length() - 1) != ']';
+        return !(itemPackage.startsWith("[") && itemPackage.endsWith("]"));
     }
 
     private void validatePackage(String itemPackage) {

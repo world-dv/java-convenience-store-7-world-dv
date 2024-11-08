@@ -3,7 +3,7 @@ package store.domain;
 public class Product {
 
     private final Integer price;
-    private final Integer quantity;
+    private Integer quantity;
     private final String promotion;
 
     public Product(Integer price, Integer quantity, String promotion) {
@@ -22,5 +22,9 @@ public class Product {
 
     public String getPromotion() {
         return promotion;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 }

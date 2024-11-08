@@ -13,4 +13,8 @@ public interface Output {
     void printlnMessage(PrintMessage printMessage);
 
     void printProduct(HashMap<String, List<Product>> products);
+
+    static void printExtraMessage(PrintMessage printMessage, String name, Integer amount) {
+        System.out.printf(printMessage.getMessage(), name, amount);
+    }
 }

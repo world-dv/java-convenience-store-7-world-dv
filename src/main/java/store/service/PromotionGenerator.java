@@ -3,7 +3,6 @@ package store.service;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -12,9 +11,9 @@ import store.util.Separator;
 
 public class PromotionGenerator {
 
-    private final HashMap<String, List<Promotion>> products = new LinkedHashMap<>();
+    private final HashMap<String, Promotion> products = new LinkedHashMap<>();
 
-    public HashMap<String, List<Promotion>> generate() {
+    public HashMap<String, Promotion> generate() {
         try {
             BufferedReader file = new BufferedReader(
                     new FileReader(System.getProperty("user.dir") + "\\src\\main\\resources\\promotions.md"));
@@ -44,12 +43,7 @@ public class PromotionGenerator {
     }
 
     private void update(String name, Promotion newPromotion) {
-        if (products.containsKey(name)) {
-            products.get(name).add(newPromotion);
-            return;
-        }
-        List<Promotion> list = new ArrayList<>();
-        list.add(newPromotion);
-        products.put(name, list);
+        ;
+        products.put(name, newPromotion);
     }
 }

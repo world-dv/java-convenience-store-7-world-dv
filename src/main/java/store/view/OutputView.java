@@ -45,6 +45,6 @@ public class OutputView implements Output {
         if (quantity.equals(0)) {
             return "재고 없음";
         }
-        return setDecimalFormat(quantity);
+        return setDecimalFormat(quantity) + "개";
     }
 }

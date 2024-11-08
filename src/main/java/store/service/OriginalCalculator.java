@@ -1,5 +1,6 @@
 package store.service;
 
+import java.util.List;
 import store.domain.Product;
 
 public class OriginalCalculator {
@@ -23,9 +24,8 @@ public class OriginalCalculator {
         product.setQuantity(product.getQuantity() - amount);
     }
 
-    public Integer calculate() {
-        Integer pay = product.getPrice() * amount;
+    public List<Integer> calculate() {
         updateQuantity();
-        return pay;
+        return List.of(amount, product.getPrice());
     }
 }

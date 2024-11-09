@@ -9,4 +9,6 @@ public interface Input {
     String readFree(String name, Integer amount);
 
     String readExtra(String name, Integer amount);
+
+    String readMembership();
 }

@@ -26,4 +26,10 @@ public class InputView implements Input {
         Output.printExtraMessage(PrintMessage.INPUT_EXTRA_PAY_MESSAGE, name, amount);
         return inputUser();
     }
+
+    @Override
+    public String readMembership() {
+        Output.printMessage(PrintMessage.INPUT_MEMBERSHIP_MESSAGE);
+        return inputUser();
+    }
 }

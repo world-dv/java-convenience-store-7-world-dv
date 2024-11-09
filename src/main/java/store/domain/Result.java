@@ -16,14 +16,6 @@ public class Result {
         return name;
     }
 
-    public Payment getOriginalResult() {
-        return originalResult;
-    }
-
-    public Payment getPromotionResult() {
-        return promotionResult;
-    }
-
     public Integer calculateTotalAmount() {
         Integer totalAmount = 0;
         if (originalResult != null) {
@@ -56,6 +48,16 @@ public class Result {
     public Integer calculateFreePrice() {
         if (promotionResult != null) {
             return promotionResult.getFreeAmount() * promotionResult.getPrice();
+        }
+        return 0;
+    }
+
+    public Integer calculateMembership() {
+        if (promotionResult != null && promotionResult.getDateRange()) {
+            return promotionResult.getBuyAmount() * promotionResult.getPrice();
+        }
+        if (originalResult != null) {
+            return originalResult.getBuyAmount() * originalResult.getPrice();
         }
         return 0;
     }

@@ -32,7 +32,7 @@ public class Application {
         WishController wishController = new WishController(products, itemController.run());
         PaymentController payController = new PaymentController(inputView, products, promotions);
         List<Result> result = payController.run(wishController.run());
-        ReceiptController recipeController = new ReceiptController(outputView, result);
+        ReceiptController recipeController = new ReceiptController(inputView, outputView, result);
         recipeController.print();
     }
 }

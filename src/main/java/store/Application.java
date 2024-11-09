@@ -24,11 +24,9 @@ public class Application {
         HashMap<String, Promotion> promotions = fileController.createPromotion();
 
         outputView.printlnMessage(PrintMessage.START_MESSAGE);
-
         outputView.printProduct(products);
-        outputView.printlnMessage(PrintMessage.LINE_SPACE);
 
-        ItemController itemController = new ItemController(inputView);
+        ItemController itemController = new ItemController(inputView, outputView);
         WishController wishController = new WishController(products, itemController.run());
         PaymentController payController = new PaymentController(inputView, products, promotions);
         List<Result> result = payController.run(wishController.run());

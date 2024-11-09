@@ -26,6 +26,7 @@ public class OutputView implements Output {
             product.forEach(value -> productDetail.add(setProductDetail(name, value)));
         }
         productDetail.forEach(System.out::println);
+        printlnMessage(PrintMessage.LINE_SPACE);
     }
 
     private String setProductDetail(String name, Product product) {

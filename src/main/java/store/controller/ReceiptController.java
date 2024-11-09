@@ -36,7 +36,7 @@ public class ReceiptController {
         outputView.printlnMessage(PrintMessage.LINE);
 
         Integer totalPrice = totalPrinter.getTotalPrice();
-        outputView.printDetail(PrintMessage.TOTAL_PRICE, totalPrice);
+        outputView.printTotalDetail(totalPrinter);
 
         Integer freePrice = freePrinter.getTotalFree();
         outputView.printDetail(PrintMessage.PROMOTION_DISCOUNT_PRICE, freePrice);

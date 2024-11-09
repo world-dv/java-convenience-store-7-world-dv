@@ -5,6 +5,7 @@ import java.util.List;
 import store.domain.Free;
 import store.domain.Product;
 import store.domain.Total;
+import store.service.printer.TotalPrinter;
 
 public interface Output {
 
@@ -19,6 +20,8 @@ public interface Output {
     static void printExtraMessage(PrintMessage printMessage, String name, Integer amount) {
         System.out.printf(printMessage.getMessage(), name, amount);
     }
+
+    void printTotalDetail(TotalPrinter totalPrinter);
 
     void printTotal(List<Total> totals);
 

@@ -10,6 +10,7 @@ public class TotalPrinter {
     private final List<Result> results;
     private final List<Total> totalResult = new ArrayList<>();
     private Integer totalPrice = 0;
+    private Integer totalAmount = 0;
 
     public TotalPrinter(List<Result> results) {
         this.results = results;
@@ -19,11 +20,16 @@ public class TotalPrinter {
         for (Result result : results) {
             totalResult.add(new Total(result.getName(), result.calculateTotalAmount(), result.calculateTotalPrice()));
             totalPrice += result.calculateTotalPrice();
+            totalAmount += result.calculateTotalAmount();
         }
         return totalResult;
     }
 
     public Integer getTotalPrice() {
         return totalPrice;
+    }
+
+    public Integer getTotalAmount() {
+        return totalAmount;
     }
 }

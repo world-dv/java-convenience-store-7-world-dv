@@ -12,7 +12,7 @@ public enum PrintMessage {
     LINE_FREE("===========증\t정============="),
     FREE_DETAIL("%s\t\t%s"),
     LINE("=============================="),
-    TOTAL_PRICE("총구매액\t\t\t%s"),
+    TOTAL_PRICE("총구매액\t\t%s\t%s"),
     PROMOTION_DISCOUNT_PRICE("행사할인\t\t\t-%s"),
     MEMBERSHIP_DISCOUNT_PRICE("멤버십할인\t\t\t-%s"),
     PAY_PRICE("내실돈\t\t\t%s"),

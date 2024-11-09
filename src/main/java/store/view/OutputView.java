@@ -8,6 +8,7 @@ import java.util.Objects;
 import store.domain.Free;
 import store.domain.Product;
 import store.domain.Total;
+import store.service.printer.TotalPrinter;
 
 public class OutputView implements Output {
 
@@ -56,14 +57,14 @@ public class OutputView implements Output {
     public void printTotal(List<Total> totals) {
         List<String> totalDetail = new ArrayList<>();
         for (Total total : totals) {
-            totalDetail.add(setTotalDetail(total));
+            totalDetail.add(setTotal(total));
         }
         totalDetail.forEach(System.out::println);
     }
 
-    private String setTotalDetail(Total total) {
+    private String setTotal(Total total) {
         return String.format(PrintMessage.WISH_DETAIL.getMessage(), total.getName(),
-                setDecimalFormat(total.getTotalAmount()), setQuantityFormat(total.getTotalPrice()));
+                setDecimalFormat(total.getTotalAmount()), setDecimalFormat(total.getTotalPrice()));
     }
 
     @Override
@@ -82,6 +83,16 @@ public class OutputView implements Output {
         }
         return String.format(PrintMessage.FREE_DETAIL.getMessage(), free.getName(),
                 setDecimalFormat(free.getTotalAmount()));
+    }
+
+    @Override
+    public void printTotalDetail(TotalPrinter totalPrinter) {
+        System.out.println(setTotalDetail(totalPrinter));
+    }
+
+    private String setTotalDetail(TotalPrinter totalPrinter) {
+        return String.format(PrintMessage.TOTAL_PRICE.getMessage(), setDecimalFormat(totalPrinter.getTotalAmount()),
+                setDecimalFormat(totalPrinter.getTotalPrice()));
     }
 
     @Override

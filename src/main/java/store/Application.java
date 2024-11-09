@@ -3,7 +3,7 @@ package store;
 import java.util.HashMap;
 import java.util.List;
 import store.controller.ItemController;
-import store.controller.PayController;
+import store.controller.PaymentController;
 import store.controller.RecipeController;
 import store.controller.WishController;
 import store.domain.Product;
@@ -39,7 +39,7 @@ public class Application {
         WishController wishController = new WishController(products, itemGenerators);
         List<Wish> wishes = wishController.run();
 
-        PayController payController = new PayController(inputView, products, promotions);
+        PaymentController payController = new PaymentController(inputView, products, promotions);
         List<Result> result = payController.run(wishes);
 
         RecipeController recipeController = new RecipeController(outputView, result);

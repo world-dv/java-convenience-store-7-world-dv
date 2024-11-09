@@ -12,14 +12,14 @@ import store.service.calculator.OriginalCalculator;
 import store.service.calculator.PromotionCalculator;
 import store.view.InputView;
 
-public class PayController {
+public class PaymentController {
 
     private final InputView inputView;
     private final HashMap<String, List<Product>> products;
     private final HashMap<String, Promotion> promotions;
 
-    public PayController(InputView inputView, HashMap<String, List<Product>> products,
-                         HashMap<String, Promotion> promotions) {
+    public PaymentController(InputView inputView, HashMap<String, List<Product>> products,
+                             HashMap<String, Promotion> promotions) {
         this.inputView = inputView;
         this.products = products;
         this.promotions = promotions;

@@ -1,16 +1,16 @@
-package store.service;
+package store.service.calculator;
 
 import camp.nextstep.edu.missionutils.DateTimes;
 import java.time.format.DateTimeFormatter;
-import store.domain.Pay;
+import store.domain.Payment;
 import store.domain.Promotion;
 
 public class DateCalculator {
 
     private final Promotion promotion;
-    private final Pay payResult;
+    private final Payment payResult;
 
-    public DateCalculator(Promotion promotion, Pay payResult) {
+    public DateCalculator(Promotion promotion, Payment payResult) {
         this.promotion = promotion;
         this.payResult = payResult;
     }

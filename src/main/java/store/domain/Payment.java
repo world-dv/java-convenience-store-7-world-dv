@@ -1,6 +1,6 @@
 package store.domain;
 
-public class Pay {
+public class Payment {
 
     private Integer buyAmount;
     private Integer freeAmount;
@@ -8,7 +8,7 @@ public class Pay {
     private Integer extra;
     private Boolean dateRange;
 
-    public Pay(Integer buyAmount, Integer freeAmount, Integer price, Integer extra) {
+    public Payment(Integer buyAmount, Integer freeAmount, Integer price, Integer extra) {
         this.buyAmount = buyAmount;
         this.freeAmount = freeAmount;
         this.price = price;

@@ -2,8 +2,8 @@ package store.controller;
 
 import java.util.List;
 import store.domain.Result;
-import store.service.FreePrinter;
-import store.service.TotalPrinter;
+import store.service.printer.FreePrinter;
+import store.service.printer.TotalPrinter;
 import store.view.OutputView;
 import store.view.PrintMessage;
 

@@ -2,14 +2,14 @@ package store.controller;
 
 import java.util.HashMap;
 import java.util.List;
-import store.domain.Pay;
+import store.domain.Payment;
 import store.domain.Product;
 import store.domain.Promotion;
 import store.domain.Result;
 import store.domain.Wish;
-import store.service.DateCalculator;
-import store.service.OriginalCalculator;
-import store.service.PromotionCalculator;
+import store.service.calculator.DateCalculator;
+import store.service.calculator.OriginalCalculator;
+import store.service.calculator.PromotionCalculator;
 import store.view.InputView;
 
 public class PayController {
@@ -42,7 +42,7 @@ public class PayController {
             return new Result(wish.getName(), calculateOriginal(product, wish.getAmount()), null);
         }
         Promotion promotion = promotions.get(product.getPromotion());
-        Pay promotionResult = calculatePromotion(product, promotion, wish.getAmount());
+        Payment promotionResult = calculatePromotion(product, promotion, wish.getAmount());
 
         DateCalculator dateCalculator = new DateCalculator(promotion, promotionResult);
         dateCalculator.calculate();
@@ -61,7 +61,7 @@ public class PayController {
         Product promotionProduct = products.stream().filter(value -> !value.getPromotion().equals("null")).toList()
                 .getFirst();
         Promotion promotion = promotions.get(promotionProduct.getPromotion());
-        Pay promotionResult = calculatePromotion(promotionProduct, promotion, wish.getAmount());
+        Payment promotionResult = calculatePromotion(promotionProduct, promotion, wish.getAmount());
 
         DateCalculator dateCalculator = new DateCalculator(promotion, promotionResult);
         dateCalculator.calculate();
@@ -80,19 +80,19 @@ public class PayController {
                 Product originalProduct = products.stream().filter(value -> value.getPromotion().equals("null"))
                         .toList()
                         .getFirst();
-                Pay result = calculateOriginal(originalProduct, promotionResult.getExtra());
+                Payment result = calculateOriginal(originalProduct, promotionResult.getExtra());
                 return new Result(wish.getName(), result, promotionResult);
             }
         }
         return new Result(wish.getName(), null, promotionResult);
     }
 
-    private Pay calculateOriginal(Product product, Integer amount) {
+    private Payment calculateOriginal(Product product, Integer amount) {
         OriginalCalculator originalCalculator = new OriginalCalculator(product, amount);
         return originalCalculator.calculate();
     }
 
-    private Pay calculatePromotion(Product product, Promotion promotion, Integer amount) {
+    private Payment calculatePromotion(Product product, Promotion promotion, Integer amount) {
         PromotionCalculator promotionCalculator = new PromotionCalculator(product, promotion, amount);
         return promotionCalculator.calculate();
     }

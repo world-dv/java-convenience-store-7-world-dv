@@ -1,4 +1,4 @@
-package store.service;
+package store.service.printer;
 
 import java.util.ArrayList;
 import java.util.List;

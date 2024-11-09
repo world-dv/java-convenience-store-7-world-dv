@@ -1,4 +1,4 @@
-package store.service;
+package store.service.generator;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

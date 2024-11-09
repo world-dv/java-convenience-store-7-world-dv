@@ -1,4 +1,4 @@
-package store.service;
+package store.service.generator;
 
 public class ItemGenerator {
 

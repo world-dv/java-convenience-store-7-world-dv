@@ -1,6 +1,6 @@
-package store.service;
+package store.service.calculator;
 
-import store.domain.Pay;
+import store.domain.Payment;
 import store.domain.Product;
 import store.domain.Promotion;
 
@@ -16,7 +16,7 @@ public class PromotionCalculator {
         this.amount = amount;
     }
 
-    public Pay calculate() {
+    public Payment calculate() {
         int buy = promotion.getContent().getFirst();
         int get = promotion.getContent().getLast();
 
@@ -27,16 +27,16 @@ public class PromotionCalculator {
             product.setQuantity(product.getQuantity() - buyAmount - freeAmount - extraAmount);
 
             if (extraAmount == buy && product.getQuantity() >= get) {
-                return new Pay(buyAmount + extraAmount, freeAmount, product.getPrice(), -1);
+                return new Payment(buyAmount + extraAmount, freeAmount, product.getPrice(), -1);
             }
-            return new Pay(buyAmount + extraAmount, freeAmount, product.getPrice(), 0);
+            return new Payment(buyAmount + extraAmount, freeAmount, product.getPrice(), 0);
         }
         int buyAmount = calculateAmount(product.getQuantity(), buy);
         int freeAmount = calculateAmount(product.getQuantity(), get);
         int extraAmount = product.getQuantity() - buyAmount - freeAmount;
         int extra = amount - product.getQuantity();
         product.setQuantity(0);
-        return new Pay(buyAmount + extraAmount, freeAmount, product.getPrice(), extra);
+        return new Payment(buyAmount + extraAmount, freeAmount, product.getPrice(), extra);
     }
 
     private Integer calculateAmount(int buyAmount, int buyOrGet) {

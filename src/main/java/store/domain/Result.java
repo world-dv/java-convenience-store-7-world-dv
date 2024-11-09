@@ -3,10 +3,10 @@ package store.domain;
 public class Result {
 
     private final String name;
-    private final Pay originalResult;
-    private final Pay promotionResult;
+    private final Payment originalResult;
+    private final Payment promotionResult;
 
-    public Result(String name, Pay originalResult, Pay promotionResult) {
+    public Result(String name, Payment originalResult, Payment promotionResult) {
         this.name = name;
         this.originalResult = originalResult;
         this.promotionResult = promotionResult;
@@ -16,11 +16,11 @@ public class Result {
         return name;
     }
 
-    public Pay getOriginalResult() {
+    public Payment getOriginalResult() {
         return originalResult;
     }
 
-    public Pay getPromotionResult() {
+    public Payment getPromotionResult() {
         return promotionResult;
     }
 

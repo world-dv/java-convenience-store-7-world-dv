@@ -1,6 +1,6 @@
-package store.service;
+package store.service.calculator;
 
-import store.domain.Pay;
+import store.domain.Payment;
 import store.domain.Product;
 
 public class OriginalCalculator {
@@ -24,8 +24,8 @@ public class OriginalCalculator {
         product.setQuantity(product.getQuantity() - amount);
     }
 
-    public Pay calculate() {
+    public Payment calculate() {
         updateQuantity();
-        return new Pay(amount, 0, product.getPrice(), 0);
+        return new Payment(amount, 0, product.getPrice(), 0);
     }
 }

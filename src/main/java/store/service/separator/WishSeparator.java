@@ -1,15 +1,15 @@
-package store.service;
+package store.service.separator;
 
 import java.util.List;
 import store.util.Separator;
 
-public class ItemSeparator {
+public class WishSeparator {
 
-    private final List<String> splitItem;
+    private final List<String> splitWish;
 
-    public ItemSeparator(String item) {
+    public WishSeparator(String item) {
         validate(item);
-        this.splitItem = Separator.splitItem(item);
+        this.splitWish = Separator.splitItem(item);
     }
 
     private boolean checkNoSeparator(String item) {
@@ -23,6 +23,6 @@ public class ItemSeparator {
     }
 
     public List<String> getSplitItem() {
-        return splitItem;
+        return splitWish;
     }
 }

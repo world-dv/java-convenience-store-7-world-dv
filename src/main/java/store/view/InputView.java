@@ -32,7 +32,7 @@ public class InputView implements Input {
             Output.printExtraMessage(PrintMessage.INPUT_EXTRA_FREE_MESSAGE, name, amount);
             return Validation.validateInput(inputUser());
         } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
+            Output.printException(e);
         }
         return null;
     }
@@ -53,7 +53,7 @@ public class InputView implements Input {
             Output.printExtraMessage(PrintMessage.INPUT_EXTRA_PAY_MESSAGE, name, amount);
             return Validation.validateInput(inputUser());
         } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
+            Output.printException(e);
         }
         return null;
     }
@@ -74,7 +74,7 @@ public class InputView implements Input {
             Output.printMessage(PrintMessage.INPUT_MEMBERSHIP_MESSAGE);
             return Validation.validateInput(inputUser());
         } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
+            Output.printException(e);
         }
         return null;
     }
@@ -95,7 +95,7 @@ public class InputView implements Input {
             Output.printMessage(PrintMessage.INPUT_RESTART_MESSAGE);
             return Validation.validateInput(inputUser());
         } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
+            Output.printException(e);
         }
         return null;
     }

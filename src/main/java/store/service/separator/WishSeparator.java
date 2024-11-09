@@ -1,6 +1,7 @@
 package store.service.separator;
 
 import java.util.List;
+import store.exception.TypeException;
 import store.util.Separator;
 
 public class WishSeparator {
@@ -18,7 +19,7 @@ public class WishSeparator {
 
     private void validate(String item) {
         if (checkNoSeparator(item)) {
-            throw new IllegalArgumentException();
+            throw new TypeException();
         }
     }
 

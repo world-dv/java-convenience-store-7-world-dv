@@ -3,10 +3,9 @@ package store;
 import java.util.HashMap;
 import java.util.List;
 import store.controller.FileController;
-import store.controller.ItemController;
+import store.controller.WishController;
 import store.controller.PaymentController;
 import store.controller.ReceiptController;
-import store.controller.WishController;
 import store.domain.Product;
 import store.domain.Promotion;
 import store.domain.Result;
@@ -30,10 +29,9 @@ public class Application {
     public static void run(InputView inputView, OutputView outputView, HashMap<String, List<Product>> products, HashMap<String, Promotion> promotions) {
         outputView.printlnMessage(PrintMessage.START_MESSAGE);
         outputView.printProduct(products);
-        ItemController itemController = new ItemController(inputView, outputView);
-        WishController wishController = new WishController(products, itemController.run());
+        WishController itemController = new WishController(inputView, outputView, products);
         PaymentController payController = new PaymentController(inputView, products, promotions);
-        List<Result> result = payController.run(wishController.run());
+        List<Result> result = payController.run(itemController.run());
         ReceiptController recipeController = new ReceiptController(inputView, outputView, result);
         recipeController.print();
     }

@@ -9,6 +9,6 @@ public class Separator {
     }
 
     public static List<String> splitItem(String item) {
-        return List.of(item.split("-"));
+        return List.of(item.split("-", 2));
     }
 }

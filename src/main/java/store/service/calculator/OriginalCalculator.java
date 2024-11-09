@@ -2,6 +2,7 @@ package store.service.calculator;
 
 import store.domain.Payment;
 import store.domain.Product;
+import store.exception.AmountException;
 
 public class OriginalCalculator {
 
@@ -9,15 +10,8 @@ public class OriginalCalculator {
     private final Integer amount;
 
     public OriginalCalculator(Product product, Integer amount) {
-        validate(product, amount);
         this.product = product;
         this.amount = amount;
-    }
-
-    private void validate(Product product, Integer amount) {
-        if (product.getQuantity() < amount) {
-            throw new IllegalArgumentException();
-        }
     }
 
     private void updateQuantity() {

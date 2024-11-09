@@ -5,6 +5,7 @@ import java.util.List;
 import store.domain.Free;
 import store.domain.Product;
 import store.domain.Total;
+import store.exception.ExceptionMessage;
 import store.service.printer.TotalPrinter;
 
 public interface Output {
@@ -28,4 +29,8 @@ public interface Output {
     void printDetail(PrintMessage printMessage, Integer number);
 
     void printFree(List<Free> frees);
+
+    static void printException(IllegalArgumentException exception) {
+        System.out.println(exception.getMessage());
+    }
 }

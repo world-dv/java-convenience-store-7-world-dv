@@ -43,7 +43,6 @@ public class PromotionGenerator {
     }
 
     private void update(String name, Promotion newPromotion) {
-        ;
         products.put(name, newPromotion);
     }
 }

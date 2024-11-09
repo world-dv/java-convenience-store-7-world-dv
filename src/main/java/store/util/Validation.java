@@ -1,10 +1,12 @@
 package store.util;
 
+import store.exception.InputException;
+
 public class Validation {
 
     public static String validateInput(String input) {
         if (isNotEqualYOrN(input)) {
-            throw new IllegalArgumentException();
+            throw new InputException();
         }
         return input;
     }

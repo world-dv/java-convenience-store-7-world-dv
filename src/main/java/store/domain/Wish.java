@@ -1,5 +1,7 @@
 package store.domain;
 
+import store.exception.InputException;
+
 public class Wish {
 
     private final String name;
@@ -13,7 +15,7 @@ public class Wish {
 
     private void validatePositive(Integer amount) {
         if (amount <= 0) {
-            throw new IllegalArgumentException();
+            throw new InputException();
         }
     }
 

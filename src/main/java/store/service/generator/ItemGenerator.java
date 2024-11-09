@@ -1,5 +1,7 @@
 package store.service.generator;
 
+import store.exception.TypeException;
+
 public class ItemGenerator {
 
     private final String item;
@@ -16,7 +18,7 @@ public class ItemGenerator {
 
     private void validatePackageCount(String itemPackage) {
         if (checkPackageCount(itemPackage)) {
-            throw new IllegalArgumentException();
+            throw new TypeException();
         }
     }
 
@@ -26,7 +28,7 @@ public class ItemGenerator {
 
     private void validatePackage(String itemPackage) {
         if (checkPackage(itemPackage)) {
-            throw new IllegalArgumentException();
+            throw new TypeException();
         }
     }
 

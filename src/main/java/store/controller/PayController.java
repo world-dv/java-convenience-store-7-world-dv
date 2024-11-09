@@ -7,6 +7,7 @@ import store.domain.Product;
 import store.domain.Promotion;
 import store.domain.Result;
 import store.domain.Wish;
+import store.service.DateCalculator;
 import store.service.OriginalCalculator;
 import store.service.PromotionCalculator;
 import store.view.InputView;
@@ -43,6 +44,9 @@ public class PayController {
         Promotion promotion = promotions.get(product.getPromotion());
         Pay promotionResult = calculatePromotion(product, promotion, wish.getAmount());
 
+        DateCalculator dateCalculator = new DateCalculator(promotion, promotionResult);
+        dateCalculator.calculate();
+
         if (promotionResult.getExtra().equals(-1)) {
             String userAnswer = inputView.readFree(wish.getName(), promotion.getContent().getLast());
             if (userAnswer.equals("Y")) {
@@ -58,6 +62,9 @@ public class PayController {
                 .getFirst();
         Promotion promotion = promotions.get(promotionProduct.getPromotion());
         Pay promotionResult = calculatePromotion(promotionProduct, promotion, wish.getAmount());
+
+        DateCalculator dateCalculator = new DateCalculator(promotion, promotionResult);
+        dateCalculator.calculate();
 
         if (promotionResult.getExtra().equals(-1)) {
             String userAnswer = inputView.readFree(wish.getName(), promotion.getContent().getLast());

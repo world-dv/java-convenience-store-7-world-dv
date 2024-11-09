@@ -6,12 +6,14 @@ public class Pay {
     private Integer freeAmount;
     private final Integer price;
     private Integer extra;
+    private Boolean dateRange;
 
     public Pay(Integer buyAmount, Integer freeAmount, Integer price, Integer extra) {
         this.buyAmount = buyAmount;
         this.freeAmount = freeAmount;
         this.price = price;
         this.extra = extra;
+        this.dateRange = false;
     }
 
     public void addBuyAmount(Integer extraAmount) {
@@ -30,6 +32,10 @@ public class Pay {
         this.extra = extra;
     }
 
+    public void changeDateRange() {
+        this.dateRange = true;
+    }
+
     public Integer getBuyAmount() {
         return buyAmount;
     }
@@ -44,5 +50,9 @@ public class Pay {
 
     public Integer getExtra() {
         return extra;
+    }
+
+    public Boolean getDateRange() {
+        return dateRange;
     }
 }

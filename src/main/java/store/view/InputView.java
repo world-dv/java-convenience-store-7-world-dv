@@ -27,7 +27,7 @@ public class InputView implements Input {
         }
     }
 
-    public String inputFee(String name, Integer amount) {
+    private String inputFee(String name, Integer amount) {
         try {
             Output.printExtraMessage(PrintMessage.INPUT_EXTRA_FREE_MESSAGE, name, amount);
             return Validation.validateInput(inputUser());
@@ -48,7 +48,7 @@ public class InputView implements Input {
         }
     }
 
-    public String inputExtra(String name, Integer amount) {
+    private String inputExtra(String name, Integer amount) {
         try {
             Output.printExtraMessage(PrintMessage.INPUT_EXTRA_PAY_MESSAGE, name, amount);
             return Validation.validateInput(inputUser());
@@ -69,9 +69,30 @@ public class InputView implements Input {
         }
     }
 
-    public String inputMembership() {
+    private String inputMembership() {
         try {
             Output.printMessage(PrintMessage.INPUT_MEMBERSHIP_MESSAGE);
+            return Validation.validateInput(inputUser());
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
+    public String readRestart() {
+        while (true) {
+            String input = inputRestart();
+            Output.printMessage(PrintMessage.LINE_SPACE);
+            if (input != null) {
+                return input;
+            }
+        }
+    }
+
+    private String inputRestart() {
+        try {
+            Output.printMessage(PrintMessage.INPUT_RESTART_MESSAGE);
             return Validation.validateInput(inputUser());
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());

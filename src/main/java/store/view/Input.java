@@ -11,4 +11,6 @@ public interface Input {
     String readExtra(String name, Integer amount);
 
     String readMembership();
+
+    String readRestart();
 }

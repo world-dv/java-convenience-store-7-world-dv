@@ -18,19 +18,27 @@ public class Application {
     public static void main(String[] args) {
         final InputView inputView = new InputView();
         final OutputView outputView = new OutputView();
-
         FileController fileController = new FileController();
         HashMap<String, List<Product>> products = fileController.createProduct();
         HashMap<String, Promotion> promotions = fileController.createPromotion();
 
+        do {
+            run(inputView, outputView, products, promotions);
+        } while (checkRestart(inputView.readRestart()));
+    }
+
+    public static void run(InputView inputView, OutputView outputView, HashMap<String, List<Product>> products, HashMap<String, Promotion> promotions) {
         outputView.printlnMessage(PrintMessage.START_MESSAGE);
         outputView.printProduct(products);
-
         ItemController itemController = new ItemController(inputView, outputView);
         WishController wishController = new WishController(products, itemController.run());
         PaymentController payController = new PaymentController(inputView, products, promotions);
         List<Result> result = payController.run(wishController.run());
         ReceiptController recipeController = new ReceiptController(inputView, outputView, result);
         recipeController.print();
+    }
+
+    public static boolean checkRestart(String restart) {
+        return restart.equals("Y");
     }
 }

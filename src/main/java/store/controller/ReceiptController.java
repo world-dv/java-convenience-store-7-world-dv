@@ -44,5 +44,6 @@ public class ReceiptController {
         outputView.printDetail(PrintMessage.MEMBERSHIP_DISCOUNT_PRICE, membership);
 
         outputView.printDetail(PrintMessage.PAY_PRICE, totalPrice - freePrice - membership);
+        outputView.printlnMessage(PrintMessage.LINE_SPACE);
     }
 }

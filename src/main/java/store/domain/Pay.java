@@ -55,4 +55,12 @@ public class Pay {
     public Boolean getDateRange() {
         return dateRange;
     }
+
+    public Integer getTotalAmount() {
+        return buyAmount + freeAmount;
+    }
+
+    public Integer getTotalPrice() {
+        return getTotalAmount() * price;
+    }
 }

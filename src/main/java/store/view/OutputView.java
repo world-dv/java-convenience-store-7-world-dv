@@ -4,7 +4,10 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
+import store.domain.Free;
 import store.domain.Product;
+import store.domain.Total;
 
 public class OutputView implements Output {
 
@@ -46,5 +49,46 @@ public class OutputView implements Output {
             return "재고 없음";
         }
         return setDecimalFormat(quantity) + "개";
+    }
+
+    @Override
+    public void printTotal(List<Total> totals) {
+        List<String> totalDetail = new ArrayList<>();
+        for (Total total : totals) {
+            totalDetail.add(setTotalDetail(total));
+        }
+        totalDetail.forEach(System.out::println);
+    }
+
+    private String setTotalDetail(Total total) {
+        return String.format(PrintMessage.WISH_DETAIL.getMessage(), total.getName(),
+                setDecimalFormat(total.getTotalAmount()), setQuantityFormat(total.getTotalPrice()));
+    }
+
+    @Override
+    public void printFree(List<Free> frees) {
+        List<String> freeDetail = new ArrayList<>();
+        for (Free free : frees) {
+            freeDetail.add(setFreeDetail(free));
+        }
+        freeDetail.stream().filter(Objects::nonNull)
+                .forEach(System.out::println);
+    }
+
+    private String setFreeDetail(Free free) {
+        if (free.getTotalAmount().equals(0)) {
+            return null;
+        }
+        return String.format(PrintMessage.FREE_DETAIL.getMessage(), free.getName(),
+                setDecimalFormat(free.getTotalAmount()));
+    }
+
+    @Override
+    public void printDetail(PrintMessage printMessage, Integer number) {
+        System.out.println(setPrice(printMessage, number));
+    }
+
+    private String setPrice(PrintMessage message, Integer price) {
+        return String.format(message.getMessage(), setDecimalFormat(price));
     }
 }

@@ -20,7 +20,7 @@ public class WishSeparator {
     }
 
     private boolean checkSeparatorNumber(String item) {
-        return item.replaceAll(ITEM_SEPARATOR, "").length() != 1;
+        return !(item.indexOf(ITEM_SEPARATOR) == item.lastIndexOf(ITEM_SEPARATOR));
     }
 
     private void validate(String item) {

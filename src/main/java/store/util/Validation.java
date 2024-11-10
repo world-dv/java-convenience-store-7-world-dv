@@ -14,7 +14,7 @@ public class Validation {
         return input;
     }
 
-    public static boolean isNotEqualYOrN(String input) {
+    private static boolean isNotEqualYOrN(String input) {
         return !(input.equals(TRUE) || input.equals(FALSE));
     }
 }

@@ -21,24 +21,28 @@ public class PromotionCalculator {
 
     public Payment calculate() {
         if (amount > product.getQuantity()) {
-            int buyAmount = calculateAmount(product.getQuantity(), promotion.getBuy());
-            int freeAmount = calculateAmount(product.getQuantity(), promotion.getGet());
-            int extraAmount = product.getQuantity() - buyAmount - freeAmount;
-            int morePayAmount = amount - product.getQuantity();
-            product.setQuantity(product.getQuantity() - buyAmount - freeAmount);
-
-            return new Payment(buyAmount, freeAmount, product.getPrice(), extraAmount, morePayAmount);
+            return calculateOverAmount();
         }
+        return calculateUnderAmount();
+    }
 
+    private Payment calculateOverAmount() {
+        int buyAmount = calculateAmount(product.getQuantity(), promotion.getBuy());
+        int freeAmount = calculateAmount(product.getQuantity(), promotion.getGet());
+        int extraAmount = product.getQuantity() - buyAmount - freeAmount;
+        int morePayAmount = amount - product.getQuantity();
+        product.setQuantity(product.getQuantity() - buyAmount - freeAmount);
+        return new Payment(buyAmount, freeAmount, product.getPrice(), extraAmount, morePayAmount);
+    }
+
+    private Payment calculateUnderAmount() {
         int buyAmount = calculateAmount(amount, promotion.getBuy());
         int freeAmount = calculateAmount(amount, promotion.getGet());
         int extraAmount = amount - buyAmount - freeAmount;
         product.setQuantity(product.getQuantity() - buyAmount - freeAmount);
-
         if (canGetFree(extraAmount) && haveFreeAmount(extraAmount)) {
             product.setQuantity(product.getQuantity() - buyAmount - freeAmount - extraAmount);
-            return new Payment(buyAmount + extraAmount, freeAmount, product.getPrice(), GET_EXTRA_FREE,
-                    INIT_VALUE);
+            return new Payment(buyAmount + extraAmount, freeAmount, product.getPrice(), GET_EXTRA_FREE, INIT_VALUE);
         }
         return new Payment(buyAmount, freeAmount, product.getPrice(), extraAmount, INIT_VALUE);
     }

@@ -16,7 +16,7 @@ public class PaymentController {
 
     private static final String NOT_BUY = "null";
     private static final Payment NOT_THING = null;
-    private static final Integer ONLY_ONE_PRODUCT = 1;
+    private static final Integer NOT_FOUND = 0;
     private static final String TRUE = "Y";
 
     private final InputView inputView;
@@ -35,82 +35,65 @@ public class PaymentController {
     }
 
     private Result buy(List<Product> buyProducts, Wish wish) {
-        if (isProductOnlyOne(buyProducts)) {
-            return buyOneWay(buyProducts, wish);
-        }
         return buyTwoWay(buyProducts, wish);
     }
 
-    private Result buyOneWay(List<Product> buyProducts, Wish wish) {
-        Product product = buyProducts.getFirst();
-        if (product.haveOriginOnly()) {
-            return new Result(wish.name(), calculateOriginal(product, wish.amount()), NOT_THING);
-        }
-        Promotion promotion = promotions.get(product.getPromotion());
-        Payment promotionResult = calculatePromotion(product, promotion, wish.amount());
-
-        runDateCalculate(promotion, promotionResult);
-
-        if (promotionResult.haveExtraFree()) {
-            String userAnswer = inputExtraFreeAnswer(wish, promotion);
-            if (sayUserYes(userAnswer)) {
-                promotionResult.addFreeAmount(promotion.getGet());
-                product.setQuantity(product.getQuantity() - promotion.getGet());
-            }
-        }
-
-        if (promotionResult.haveExtra()) {
-            String userAnswer = inputExtraAnswer(wish, promotionResult);
-            if (sayUserYes(userAnswer)) {
-                promotionResult.changeMembership();
-                promotionResult.setBuyAmount(promotionResult.getBuyAmount() + promotionResult.getExtraAmount());
-                product.setQuantity(product.getQuantity() - promotionResult.getExtraAmount());
-            }
-        }
-        return new Result(wish.name(), NOT_THING, promotionResult);
-    }
-
     private Result buyTwoWay(List<Product> buyProducts, Wish wish) {
-        Product product = findPromotion(buyProducts);
-        Promotion promotion = promotions.get(product.getPromotion());
-        Payment promotionResult = calculatePromotion(product, promotion, wish.amount());
-
-        runDateCalculate(promotion, promotionResult);
-
-        if (promotionResult.haveExtraFree()) {
-            String userAnswer = inputExtraFreeAnswer(wish, promotion);
-            if (sayUserYes(userAnswer)) {
-                product.setQuantity(product.getQuantity() - promotion.getGet());
-                promotionResult.addFreeAmount(promotion.getGet());
-            }
-            return new Result(wish.name(), NOT_THING, promotionResult);
+        Product promotionProduct = findPromotion(buyProducts);
+        if (promotionProduct == null || promotionProduct.getQuantity().equals(NOT_FOUND)) {
+            return new Result(wish.name(), calculateOriginal(findOriginal(buyProducts), wish.amount()), NOT_THING);
         }
+        Promotion promotion = promotions.get(promotionProduct.getPromotion());
+        Payment promotionResult = calculatePromotion(promotionProduct, promotion, wish.amount());
+        runDateCalculate(promotion, promotionResult);
+        return calculateResult(wish, promotion, promotionProduct, findOriginal(buyProducts), promotionResult);
+    }
 
+    private Result calculateResult(Wish wish, Promotion promotion, Product promotionProduct, Product originalProduct,
+                                   Payment promotionResult) {
+        if (promotionResult.haveExtraFree()) {
+            return buyFree(wish, promotion, promotionProduct, promotionResult);
+        }
         if (promotionResult.haveExtra()) {
-            String userAnswer = inputExtraAnswer(wish, promotionResult);
-            if (sayUserYes(userAnswer)) {
-                promotionResult.changeMembership();
-                product.setQuantity(product.getQuantity() - promotionResult.getExtraAmount());
-                promotionResult.setBuyAmount(promotionResult.getBuyAmount() + promotionResult.getExtraAmount());
-
-                Product originalProduct = findOriginal(buyProducts);
-                Payment originalResult = calculateOriginal(originalProduct, promotionResult.getMorePayAmount());
-                return new Result(wish.name(), originalResult, promotionResult);
-            }
+            return buyExtra(wish, promotionProduct, originalProduct, promotionResult);
         }
         return new Result(wish.name(), NOT_THING, promotionResult);
     }
 
-    private boolean isProductOnlyOne(List<Product> buyProducts) {
-        return buyProducts.size() == ONLY_ONE_PRODUCT;
+    private Result buyFree(Wish wish, Promotion promotion, Product promotionProduct, Payment promotionResult) {
+        String userAnswer = inputExtraFreeAnswer(wish, promotion);
+        if (sayUserYes(userAnswer)) {
+            promotionProduct.setQuantity(promotionProduct.getQuantity() - promotion.getGet());
+            promotionResult.addFreeAmount(promotion.getGet());
+        }
+        return new Result(wish.name(), NOT_THING, promotionResult);
+    }
+
+    private Result buyExtra(Wish wish, Product promotionProduct, Product originalProduct, Payment payment) {
+        String userAnswer = inputExtraAnswer(wish, payment);
+        if (sayUserYes(userAnswer)) {
+            return buyExtraTwoWay(wish, promotionProduct, originalProduct, payment);
+        }
+        return new Result(wish.name(), NOT_THING, payment);
+    }
+
+    private Result buyExtraTwoWay(Wish wish, Product promotionProduct, Product originalProduct, Payment payment) {
+        payment.changeMembership();
+        promotionProduct.setQuantity(promotionProduct.getQuantity() - payment.getExtraAmount());
+        payment.setBuyAmount(payment.getBuyAmount() + payment.getExtraAmount());
+        if (originalProduct != null) {
+            Payment originalResult = calculateOriginal(originalProduct, payment.getMorePayAmount());
+            return new Result(wish.name(), originalResult, payment);
+        }
+        return new Result(wish.name(), NOT_THING, payment);
     }
 
     private Product findPromotion(List<Product> buyProducts) {
-        return buyProducts.stream().filter(value -> !value.getPromotion().equals(NOT_BUY)).toList().getFirst();
+        return buyProducts.stream().filter(value -> !value.getPromotion().equals(NOT_BUY)).findFirst().orElse(null);
     }
 
     private Product findOriginal(List<Product> buyProducts) {
-        return buyProducts.stream().filter(value -> value.getPromotion().equals(NOT_BUY)).toList().getFirst();
+        return buyProducts.stream().filter(value -> value.getPromotion().equals(NOT_BUY)).findFirst().orElse(null);
     }
 
     private String inputExtraFreeAnswer(Wish wish, Promotion promotion) {

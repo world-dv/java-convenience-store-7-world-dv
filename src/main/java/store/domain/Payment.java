@@ -55,14 +55,6 @@ public class Payment {
         this.buyAmount += freeAmount;
     }
 
-    public void setBuyAmount(Integer buyAmount) {
-        this.buyAmount = buyAmount;
-    }
-
-    public void setFreeAmount(Integer freeAmount) {
-        this.freeAmount = freeAmount;
-    }
-
     public boolean getMembership() {
         return membership;
     }
@@ -71,8 +63,16 @@ public class Payment {
         return buyAmount;
     }
 
+    public void setBuyAmount(Integer buyAmount) {
+        this.buyAmount = buyAmount;
+    }
+
     public Integer getFreeAmount() {
         return freeAmount;
+    }
+
+    public void setFreeAmount(Integer freeAmount) {
+        this.freeAmount = freeAmount;
     }
 
     public Integer getPrice() {
@@ -83,12 +83,12 @@ public class Payment {
         return extraAmount;
     }
 
-    public Integer getExtraPrice() {
-        return extraAmount * price;
-    }
-
     public void setExtraAmount(Integer extraAmount) {
         this.extraAmount = extraAmount;
+    }
+
+    public Integer getExtraPrice() {
+        return extraAmount * price;
     }
 
     public Integer getMorePayAmount() {

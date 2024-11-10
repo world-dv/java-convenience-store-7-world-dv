@@ -62,7 +62,7 @@ public class PaymentController {
         if (promotionResult.haveExtra()) {
             String userAnswer = inputExtraAnswer(wish, promotionResult);
             if (sayUserYes(userAnswer)) {
-                promotionResult.changeDateRange();
+                promotionResult.changeMembership();
                 promotionResult.setBuyAmount(promotionResult.getBuyAmount() + promotionResult.getExtraAmount());
                 product.setQuantity(product.getQuantity() - promotionResult.getExtraAmount());
             }
@@ -89,7 +89,7 @@ public class PaymentController {
         if (promotionResult.haveExtra()) {
             String userAnswer = inputExtraAnswer(wish, promotionResult);
             if (sayUserYes(userAnswer)) {
-                promotionResult.changeDateRange();
+                promotionResult.changeMembership();
                 product.setQuantity(product.getQuantity() - promotionResult.getExtraAmount());
                 promotionResult.setBuyAmount(promotionResult.getBuyAmount() + promotionResult.getExtraAmount());
 

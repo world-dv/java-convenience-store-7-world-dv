@@ -10,6 +10,7 @@ public class Payment {
     private Integer extraAmount;
     private Integer buyAmount;
     private Integer freeAmount;
+    private Boolean membership;
     private Boolean dateRange;
 
     public Payment(Integer buyAmount, Integer freeAmount, Integer price, Integer extraAmount, Integer morePayAmount) {
@@ -18,6 +19,7 @@ public class Payment {
         this.price = price;
         this.extraAmount = extraAmount;
         this.morePayAmount = morePayAmount;
+        this.membership = false;
         this.dateRange = false;
     }
 
@@ -45,6 +47,10 @@ public class Payment {
         this.dateRange = true;
     }
 
+    public void changeMembership() {
+        this.membership = true;
+    }
+
     public void addBuyAmount(Integer freeAmount) {
         this.buyAmount += freeAmount;
     }
@@ -55,6 +61,10 @@ public class Payment {
 
     public void setFreeAmount(Integer freeAmount) {
         this.freeAmount = freeAmount;
+    }
+
+    public boolean getMembership() {
+        return membership;
     }
 
     public Integer getBuyAmount() {
@@ -71,6 +81,10 @@ public class Payment {
 
     public Integer getExtraAmount() {
         return extraAmount;
+    }
+
+    public Integer getExtraPrice() {
+        return extraAmount * price;
     }
 
     public void setExtraAmount(Integer extraAmount) {

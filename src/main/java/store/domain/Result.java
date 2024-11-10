@@ -55,8 +55,20 @@ public class Result {
         if (originalResult != null) {
             total += originalResult.calculateTotalPrice();
         }
-        if (promotionResult != null && promotionResult.getDateRange()) {
-            total += promotionResult.calculateTotalPrice() + promotionResult.getExtraAmount();
+        if (promotionResult != null) {
+            total += calculatePromotionMembership();
+        }
+        return total;
+    }
+
+    private Integer calculatePromotionMembership() {
+        int total = INIT_VALUE;
+        if (promotionResult.getDateRange()) {
+            total += promotionResult.calculateTotalPrice();
+        }
+        if (promotionResult.getMembership()) {
+            total += promotionResult.getExtraPrice();
+            System.out.println(promotionResult.getExtraPrice());
         }
         return total;
     }

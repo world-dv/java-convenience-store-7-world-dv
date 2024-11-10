@@ -19,8 +19,12 @@ public class WishSeparator {
         return !item.contains(ITEM_SEPARATOR);
     }
 
+    private boolean checkSeparatorNumber(String item) {
+        return item.replaceAll(ITEM_SEPARATOR, "").length() != 1;
+    }
+
     private void validate(String item) {
-        if (checkNoSeparator(item)) {
+        if (checkNoSeparator(item) || checkSeparatorNumber(item)) {
             throw new TypeException();
         }
     }

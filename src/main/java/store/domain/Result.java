@@ -66,6 +66,9 @@ public class Result {
         if (promotionResult.getDateRange()) {
             total += promotionResult.calculateTotalPrice();
         }
+        if (promotionResult.getMembership()) {
+            total += promotionResult.getExtraPrice();
+        }
         return total;
     }
 

@@ -2,8 +2,6 @@ package store.domain;
 
 public class Product {
 
-    private static final String NOT_BUY = "null";
-
     private final Integer price;
     private final String promotion;
     private Integer quantity;
@@ -12,10 +10,6 @@ public class Product {
         this.price = price;
         this.quantity = quantity;
         this.promotion = promotion;
-    }
-
-    public boolean haveOriginOnly() {
-        return promotion.equals(NOT_BUY);
     }
 
     public String getPromotion() {

@@ -7,6 +7,11 @@ import store.domain.Promotion;
 
 public class DateCalculator {
 
+    private static final Integer JUDGE_POSITIVE_NUMBER = 0;
+    private static final Integer INIT_VALUE = 0;
+    private static final Integer GET_EXTRA_FREE = -1;
+    private static final String DATE_FORMAT = "yyyy-MM-dd";
+
     private final Promotion promotion;
     private final Payment payResult;
 
@@ -21,30 +26,34 @@ public class DateCalculator {
         }
     }
 
-    private boolean isTodayNotInRange() {
-        String today = DateTimes.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        return isTodayBefore(today) || isTodayAfter(today);
+    private void changePromotion() {
+        payResult.changeDateRange();
+        payResult.addBuyAmount(payResult.getFreeAmount());
+        payResult.setFreeAmount(INIT_VALUE);
+        payResult.setExtraAmount(changeExtra(payResult.getExtraAmount()));
     }
 
-    private boolean isTodayBefore(String today) {
-        return promotion.getDate().getFirst().compareTo(today) > 0;
-    }
-
-    private boolean isTodayAfter(String today) {
-        return today.compareTo(promotion.getDate().getLast()) > 0;
-    }
-
-    private Integer changeExtra(int extra) {
-        if (extra == -1) {
-            return 0;
+    private Integer changeExtra(Integer extra) {
+        if (extra.equals(GET_EXTRA_FREE)) {
+            return INIT_VALUE;
         }
         return extra;
     }
 
-    private void changePromotion() {
-        payResult.changeDateRange();
-        payResult.addBuyAmount(payResult.getFreeAmount());
-        payResult.setFreeAmount(0);
-        payResult.setExtra(changeExtra(payResult.getExtra()));
+    private boolean isTodayNotInRange() {
+        String today = getTodayDate();
+        return isTodayBefore(today) || isTodayAfter(today);
+    }
+
+    private boolean isTodayBefore(String today) {
+        return promotion.getStartDate().compareTo(today) > JUDGE_POSITIVE_NUMBER;
+    }
+
+    private boolean isTodayAfter(String today) {
+        return today.compareTo(promotion.getEndDate()) > JUDGE_POSITIVE_NUMBER;
+    }
+
+    private String getTodayDate() {
+        return DateTimes.now().format(DateTimeFormatter.ofPattern(DATE_FORMAT));
     }
 }

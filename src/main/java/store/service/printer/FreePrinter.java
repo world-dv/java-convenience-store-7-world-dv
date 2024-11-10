@@ -7,23 +7,31 @@ import store.domain.Result;
 
 public class FreePrinter {
 
+    private static final Integer INIT_VALUE = 0;
+
     private final List<Result> results;
-    private final List<Free> freeResult = new ArrayList<>();
-    private Integer totalFree = 0;
 
     public FreePrinter(List<Result> results) {
         this.results = results;
     }
 
     public List<Free> calculate() {
+        List<Free> freeResult = new ArrayList<>();
         for (Result result : results) {
-            freeResult.add(new Free(result.getName(), result.calculateFreeAmount()));
-            totalFree += result.calculateFreePrice();
+            freeResult.add(createFree(result));
         }
         return freeResult;
     }
 
-    public Integer getTotalFree() {
-        return totalFree;
+    private Free createFree(Result result) {
+        return new Free(result.getName(), result.calculateFreeAmount());
+    }
+
+    public Integer calculateTotalFree() {
+        int total = INIT_VALUE;
+        for (Result result : results) {
+            total += result.calculateFreePrice();
+        }
+        return total;
     }
 }

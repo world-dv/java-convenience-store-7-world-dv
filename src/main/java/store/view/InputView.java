@@ -17,17 +17,21 @@ public class InputView implements Input {
     }
 
     @Override
-    public String readFree(String name, Integer amount) {
+    public String readFree(String name, int amount) {
         while (true) {
             String input = inputFee(name, amount);
             Output.printMessage(PrintMessage.LINE_SPACE);
-            if (input != null) {
+            if (isNotInputNull(input)) {
                 return input;
             }
         }
     }
 
-    private String inputFee(String name, Integer amount) {
+    private boolean isNotInputNull(String input) {
+        return input != null;
+    }
+
+    private String inputFee(String name, int amount) {
         try {
             Output.printExtraMessage(PrintMessage.INPUT_EXTRA_FREE_MESSAGE, name, amount);
             return Validation.validateInput(inputUser());
@@ -38,17 +42,17 @@ public class InputView implements Input {
     }
 
     @Override
-    public String readExtra(String name, Integer amount) {
+    public String readExtra(String name, int amount) {
         while (true) {
             String input = inputExtra(name, amount);
             Output.printMessage(PrintMessage.LINE_SPACE);
-            if (input != null) {
+            if (isNotInputNull(input)) {
                 return input;
             }
         }
     }
 
-    private String inputExtra(String name, Integer amount) {
+    private String inputExtra(String name, int amount) {
         try {
             Output.printExtraMessage(PrintMessage.INPUT_EXTRA_PAY_MESSAGE, name, amount);
             return Validation.validateInput(inputUser());
@@ -63,7 +67,7 @@ public class InputView implements Input {
         while (true) {
             String input = inputMembership();
             Output.printMessage(PrintMessage.LINE_SPACE);
-            if (input != null) {
+            if (isNotInputNull(input)) {
                 return input;
             }
         }
@@ -84,7 +88,7 @@ public class InputView implements Input {
         while (true) {
             String input = inputRestart();
             Output.printMessage(PrintMessage.LINE_SPACE);
-            if (input != null) {
+            if (isNotInputNull(input)) {
                 return input;
             }
         }

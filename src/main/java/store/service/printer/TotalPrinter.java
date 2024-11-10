@@ -8,28 +8,36 @@ import store.domain.Total;
 public class TotalPrinter {
 
     private final List<Result> results;
-    private final List<Total> totalResult = new ArrayList<>();
-    private Integer totalPrice = 0;
-    private Integer totalAmount = 0;
 
     public TotalPrinter(List<Result> results) {
         this.results = results;
     }
 
     public List<Total> calculate() {
+        List<Total> totalResult = new ArrayList<>();
         for (Result result : results) {
-            totalResult.add(new Total(result.getName(), result.calculateTotalAmount(), result.calculateTotalPrice()));
-            totalPrice += result.calculateTotalPrice();
-            totalAmount += result.calculateTotalAmount();
+            totalResult.add(createTotal(result));
         }
         return totalResult;
     }
 
-    public Integer getTotalPrice() {
-        return totalPrice;
+    private Total createTotal(Result result) {
+        return new Total(result.getName(), result.calculateTotalAmount(), result.calculateTotalPrice());
     }
 
-    public Integer getTotalAmount() {
-        return totalAmount;
+    public Integer calculateTotalPrice() {
+        int total = 0;
+        for (Result result : results) {
+            total += result.calculateTotalPrice();
+        }
+        return total;
+    }
+
+    public Integer calculateTotalAmount() {
+        int total = 0;
+        for (Result result : results) {
+            total += result.calculateTotalAmount();
+        }
+        return total;
     }
 }

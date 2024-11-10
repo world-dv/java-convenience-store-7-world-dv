@@ -2,21 +2,21 @@ package store.domain;
 
 import java.util.List;
 
-public class Promotion {
+public record Promotion(List<Integer> content, List<String> date) {
 
-    private final List<Integer> content;
-    private final List<String> date;
-
-    public Promotion(List<Integer> content, List<String> date) {
-        this.content = content;
-        this.date = date;
+    public Integer getBuy() {
+        return content.getFirst();
     }
 
-    public List<Integer> getContent() {
-        return content;
+    public Integer getGet() {
+        return content.getLast();
     }
 
-    public List<String> getDate() {
-        return date;
+    public String getStartDate() {
+        return date.getFirst();
+    }
+
+    public String getEndDate() {
+        return date.getLast();
     }
 }

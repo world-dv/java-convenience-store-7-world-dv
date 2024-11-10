@@ -12,7 +12,12 @@ import store.service.printer.TotalPrinter;
 
 public class OutputView implements Output {
 
-    private final DecimalFormat decimalFormat = new DecimalFormat("###,###");
+    private static final String NUMBER_UNIT_PATTEN = "###,###";
+    private static final String PROMOTION_NOT_FOUND = "null";
+    private static final String INIT_VALUE = "";
+    private static final Integer AMOUNT_NOT_FOUND = 0;
+
+    private final DecimalFormat decimalFormat = new DecimalFormat(NUMBER_UNIT_PATTEN);
 
     @Override
     public void printlnMessage(PrintMessage printMessage) {
@@ -35,22 +40,27 @@ public class OutputView implements Output {
                 setQuantityFormat(product.getQuantity()), setPromotionFormat(product.getPromotion()));
     }
 
-    private String setDecimalFormat(Integer number) {
-        return decimalFormat.format(number);
-    }
-
     private String setPromotionFormat(String promotion) {
-        if (promotion.equals("null")) {
-            return "";
+        if (promotion.equals(PROMOTION_NOT_FOUND)) {
+            return INIT_VALUE;
         }
         return promotion;
     }
 
-    private String setQuantityFormat(Integer quantity) {
-        if (quantity.equals(0)) {
-            return "재고 없음";
+    private String setDecimalFormat(int number) {
+        return decimalFormat.format(number);
+    }
+
+    private String setQuantityFormat(int quantity) {
+        if (quantity == AMOUNT_NOT_FOUND) {
+            return PrintMessage.PRODUCT_NOTHING.getMessage();
         }
-        return setDecimalFormat(quantity) + "개";
+        return setDecimalFormat(quantity) + PrintMessage.AMOUNT_UNIT.getMessage();
+    }
+
+    private String setTotal(Total total) {
+        return String.format(PrintMessage.WISH_DETAIL.getMessage(), total.name(),
+                setDecimalFormat(total.totalAmount()), setDecimalFormat(total.totalPrice()));
     }
 
     @Override
@@ -62,9 +72,12 @@ public class OutputView implements Output {
         totalDetail.forEach(System.out::println);
     }
 
-    private String setTotal(Total total) {
-        return String.format(PrintMessage.WISH_DETAIL.getMessage(), total.getName(),
-                setDecimalFormat(total.getTotalAmount()), setDecimalFormat(total.getTotalPrice()));
+    private String setFreeDetail(Free free) {
+        if (free.totalAmount().equals(AMOUNT_NOT_FOUND)) {
+            return null;
+        }
+        return String.format(PrintMessage.FREE_DETAIL.getMessage(), free.name(),
+                setDecimalFormat(free.totalAmount()));
     }
 
     @Override
@@ -77,12 +90,10 @@ public class OutputView implements Output {
                 .forEach(System.out::println);
     }
 
-    private String setFreeDetail(Free free) {
-        if (free.getTotalAmount().equals(0)) {
-            return null;
-        }
-        return String.format(PrintMessage.FREE_DETAIL.getMessage(), free.getName(),
-                setDecimalFormat(free.getTotalAmount()));
+    private String setTotalDetail(TotalPrinter totalPrinter) {
+        return String.format(PrintMessage.TOTAL_PRICE.getMessage(),
+                setDecimalFormat(totalPrinter.calculateTotalAmount()),
+                setDecimalFormat(totalPrinter.calculateTotalPrice()));
     }
 
     @Override
@@ -90,17 +101,12 @@ public class OutputView implements Output {
         System.out.println(setTotalDetail(totalPrinter));
     }
 
-    private String setTotalDetail(TotalPrinter totalPrinter) {
-        return String.format(PrintMessage.TOTAL_PRICE.getMessage(), setDecimalFormat(totalPrinter.getTotalAmount()),
-                setDecimalFormat(totalPrinter.getTotalPrice()));
+    private String setPrice(PrintMessage message, int price) {
+        return String.format(message.getMessage(), setDecimalFormat(price));
     }
 
     @Override
-    public void printDetail(PrintMessage printMessage, Integer number) {
+    public void printDetail(PrintMessage printMessage, int number) {
         System.out.println(setPrice(printMessage, number));
-    }
-
-    private String setPrice(PrintMessage message, Integer price) {
-        return String.format(message.getMessage(), setDecimalFormat(price));
     }
 }

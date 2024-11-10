@@ -1,6 +1,7 @@
 package store.view;
 
 public enum PrintMessage {
+
     START_MESSAGE("안녕하세요. W편의점입니다.\n현재 보유하고 있는 상품입니다.\n"),
     PRODUCT_DETAIL("- %s %s원 %s %s"),
     INPUT_ITEM_MESSAGE("구매하실 상품명과 수량을 입력해 주세요. (예: [사이다-2],[감자칩-1])"),
@@ -17,6 +18,8 @@ public enum PrintMessage {
     MEMBERSHIP_DISCOUNT_PRICE("멤버십할인\t\t\t-%s"),
     PAY_PRICE("내실돈\t\t\t%s"),
     INPUT_RESTART_MESSAGE("감사합니다. 구매하고 싶은 다른 상품이 있나요? (Y/N)"),
+    PRODUCT_NOTHING("재고 없음"),
+    AMOUNT_UNIT("개"),
     LINE_SPACE("");
 
     private final String message;

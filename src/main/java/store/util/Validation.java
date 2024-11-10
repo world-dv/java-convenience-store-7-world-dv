@@ -4,6 +4,9 @@ import store.exception.InputException;
 
 public class Validation {
 
+    private static final String TRUE = "Y";
+    private static final String FALSE = "N";
+
     public static String validateInput(String input) {
         if (isNotEqualYOrN(input)) {
             throw new InputException();
@@ -12,6 +15,6 @@ public class Validation {
     }
 
     public static boolean isNotEqualYOrN(String input) {
-        return !(input.equals("Y") || input.equals("N"));
+        return !(input.equals(TRUE) || input.equals(FALSE));
     }
 }

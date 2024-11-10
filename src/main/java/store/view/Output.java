@@ -5,7 +5,6 @@ import java.util.List;
 import store.domain.Free;
 import store.domain.Product;
 import store.domain.Total;
-import store.exception.ExceptionMessage;
 import store.service.printer.TotalPrinter;
 
 public interface Output {
@@ -14,23 +13,23 @@ public interface Output {
         System.out.println(printMessage.getMessage());
     }
 
+    static void printExtraMessage(PrintMessage printMessage, String name, int amount) {
+        System.out.printf(printMessage.getMessage(), name, amount);
+    }
+
+    static void printException(IllegalArgumentException exception) {
+        System.out.println(exception.getMessage());
+    }
+
     void printlnMessage(PrintMessage printMessage);
 
     void printProduct(HashMap<String, List<Product>> products);
-
-    static void printExtraMessage(PrintMessage printMessage, String name, Integer amount) {
-        System.out.printf(printMessage.getMessage(), name, amount);
-    }
 
     void printTotalDetail(TotalPrinter totalPrinter);
 
     void printTotal(List<Total> totals);
 
-    void printDetail(PrintMessage printMessage, Integer number);
+    void printDetail(PrintMessage printMessage, int number);
 
     void printFree(List<Free> frees);
-
-    static void printException(IllegalArgumentException exception) {
-        System.out.println(exception.getMessage());
-    }
 }

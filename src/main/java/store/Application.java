@@ -3,9 +3,9 @@ package store;
 import java.util.HashMap;
 import java.util.List;
 import store.controller.FileController;
-import store.controller.WishController;
 import store.controller.PaymentController;
 import store.controller.ReceiptController;
+import store.controller.WishController;
 import store.domain.Product;
 import store.domain.Promotion;
 import store.domain.Result;
@@ -26,7 +26,8 @@ public class Application {
         } while (checkRestart(inputView.readRestart()));
     }
 
-    public static void run(InputView inputView, OutputView outputView, HashMap<String, List<Product>> products, HashMap<String, Promotion> promotions) {
+    public static void run(InputView inputView, OutputView outputView, HashMap<String, List<Product>> products,
+                           HashMap<String, Promotion> promotions) {
         outputView.printlnMessage(PrintMessage.START_MESSAGE);
         outputView.printProduct(products);
         WishController itemController = new WishController(inputView, outputView, products);

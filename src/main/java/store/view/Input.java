@@ -6,9 +6,9 @@ public interface Input {
 
     String readItem();
 
-    String readFree(String name, Integer amount);
+    String readFree(String name, int amount);
 
-    String readExtra(String name, Integer amount);
+    String readExtra(String name, int amount);
 
     String readMembership();
 

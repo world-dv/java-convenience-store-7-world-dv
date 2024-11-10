@@ -7,21 +7,29 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import store.domain.Promotion;
+import store.exception.ExceptionMessage;
 import store.util.Separator;
 
 public class PromotionGenerator {
 
-    private final HashMap<String, Promotion> products = new LinkedHashMap<>();
+    private static final String PROMOTION_DIRECTORY = "user.dir";
+    private static final String PROMOTION_FILE_PATH = "\\src\\main\\resources\\promotions.md";
+    private static final Integer BUY = 1;
+    private static final Integer GET = 2;
+    private static final Integer START_DATE = 3;
+    private static final Integer END_DATE = 4;
+
+    private final HashMap<String, Promotion> promotions = new LinkedHashMap<>();
 
     public HashMap<String, Promotion> generate() {
         try {
             BufferedReader file = new BufferedReader(
-                    new FileReader(System.getProperty("user.dir") + "\\src\\main\\resources\\promotions.md"));
+                    new FileReader(System.getProperty(PROMOTION_DIRECTORY) + PROMOTION_FILE_PATH));
             readFile(file);
         } catch (IOException e) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(ExceptionMessage.PROMOTION_FILE_READ_ERROR.getMessage());
         }
-        return products;
+        return promotions;
     }
 
     private void readFile(BufferedReader file) throws IOException {
@@ -32,17 +40,27 @@ public class PromotionGenerator {
                 break;
             }
             List<String> promotion = Separator.splitItems(data);
-            update(promotion.getFirst(), createNew(promotion));
+            updatePromotion(promotion.getFirst(), createNew(promotion));
         }
     }
 
-    private Promotion createNew(List<String> promotion) {
-        List<Integer> content = List.of(Integer.parseInt(promotion.get(1)), Integer.parseInt(promotion.get(2)));
-        List<String> date = List.of(promotion.get(3), promotion.get(4));
-        return new Promotion(content, date);
+    private void updatePromotion(String name, Promotion newPromotion) {
+        promotions.put(name, newPromotion);
     }
 
-    private void update(String name, Promotion newPromotion) {
-        products.put(name, newPromotion);
+    private Promotion createNew(List<String> promotion) {
+        return new Promotion(createContent(promotion), createDate(promotion));
+    }
+
+    private List<Integer> createContent(List<String> promotion) {
+        return List.of(changeNumber(promotion.get(BUY)), changeNumber(promotion.get(GET)));
+    }
+
+    private List<String> createDate(List<String> promotion) {
+        return List.of(promotion.get(START_DATE), promotion.get(END_DATE));
+    }
+
+    private Integer changeNumber(String number) {
+        return Integer.parseInt(number);
     }
 }

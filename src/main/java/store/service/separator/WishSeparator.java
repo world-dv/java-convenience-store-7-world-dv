@@ -6,6 +6,8 @@ import store.util.Separator;
 
 public class WishSeparator {
 
+    private static final String ITEM_SEPARATOR = "-";
+
     private final List<String> splitWish;
 
     public WishSeparator(String item) {
@@ -14,7 +16,7 @@ public class WishSeparator {
     }
 
     private boolean checkNoSeparator(String item) {
-        return !item.contains("-");
+        return !item.contains(ITEM_SEPARATOR);
     }
 
     private void validate(String item) {

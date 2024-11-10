@@ -22,19 +22,14 @@ public class WishGenerator {
         this.amount = amount;
     }
 
+    public Wish createWish() {
+        return new Wish(name, amount);
+    }
+
     private void validateName(HashMap<String, List<Product>> products, String name) {
         if (!products.containsKey(name)) {
             throw new NotFoundException();
         }
-    }
-
-    private Integer calculateTotalAmount(HashMap<String, List<Product>> products) {
-        List<Product> keyProducts = products.get(name);
-        Integer totalAmount = 0;
-        for (Product product : keyProducts) {
-            totalAmount += product.getQuantity();
-        }
-        return totalAmount;
     }
 
     private void validateAmount(HashMap<String, List<Product>> products, Integer amount) {
@@ -51,7 +46,12 @@ public class WishGenerator {
         }
     }
 
-    public Wish createWish() {
-        return new Wish(name, amount);
+    private Integer calculateTotalAmount(HashMap<String, List<Product>> products) {
+        List<Product> keyProducts = products.get(name);
+        Integer totalAmount = 0;
+        for (Product product : keyProducts) {
+            totalAmount += product.getQuantity();
+        }
+        return totalAmount;
     }
 }

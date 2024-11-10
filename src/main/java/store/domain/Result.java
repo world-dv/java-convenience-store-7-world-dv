@@ -2,6 +2,8 @@ package store.domain;
 
 public class Result {
 
+    private static final Integer INIT_VALUE = 0;
+
     private final String name;
     private final Payment originalResult;
     private final Payment promotionResult;
@@ -12,53 +14,54 @@ public class Result {
         this.promotionResult = promotionResult;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public Integer calculateTotalAmount() {
-        Integer totalAmount = 0;
+        int total = INIT_VALUE;
         if (originalResult != null) {
-            totalAmount += originalResult.getTotalAmount();
+            total += originalResult.sumTotalAmount();
         }
         if (promotionResult != null) {
-            totalAmount += promotionResult.getTotalAmount();
+            total += promotionResult.sumTotalAmount();
         }
-        return totalAmount;
+        return total;
     }
 
     public Integer calculateTotalPrice() {
-        Integer totalPrice = 0;
+        int total = INIT_VALUE;
         if (originalResult != null) {
-            totalPrice += originalResult.getTotalPrice();
+            total += originalResult.calculateTotalPrice();
         }
         if (promotionResult != null) {
-            totalPrice += promotionResult.getTotalPrice();
+            total += promotionResult.calculateTotalPrice();
         }
-        return totalPrice;
+        return total;
     }
 
     public Integer calculateFreeAmount() {
         if (promotionResult != null) {
             return promotionResult.getFreeAmount();
         }
-        return 0;
+        return INIT_VALUE;
     }
 
     public Integer calculateFreePrice() {
         if (promotionResult != null) {
-            return promotionResult.getFreeAmount() * promotionResult.getPrice();
+            return promotionResult.getPrice() * promotionResult.getFreeAmount();
         }
-        return 0;
+        return INIT_VALUE;
     }
 
     public Integer calculateMembership() {
-        if (promotionResult != null && promotionResult.getDateRange()) {
-            return promotionResult.getBuyAmount() * promotionResult.getPrice();
-        }
+        int total = INIT_VALUE;
         if (originalResult != null) {
-            return originalResult.getBuyAmount() * originalResult.getPrice();
+            total += originalResult.calculateTotalPrice();
         }
-        return 0;
+        if (promotionResult != null && promotionResult.getDateRange()) {
+            total += promotionResult.calculateTotalPrice() + promotionResult.getExtraAmount();
+        }
+        return total;
+    }
+
+    public String getName() {
+        return name;
     }
 }

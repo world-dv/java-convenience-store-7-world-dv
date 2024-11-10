@@ -2,28 +2,17 @@ package store.domain;
 
 import store.exception.InputException;
 
-public class Wish {
+public record Wish(String name, Integer amount) {
 
-    private final String name;
-    private final Integer amount;
+    private static final Integer JUDGE_POSITIVE_NUMBER = 0;
 
-    public Wish(String name, Integer amount) {
+    public Wish {
         validatePositive(amount);
-        this.name = name;
-        this.amount = amount;
     }
 
     private void validatePositive(Integer amount) {
-        if (amount <= 0) {
+        if (amount <= JUDGE_POSITIVE_NUMBER) {
             throw new InputException();
         }
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Integer getAmount() {
-        return amount;
     }
 }

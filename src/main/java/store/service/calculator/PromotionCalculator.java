@@ -6,6 +6,9 @@ import store.domain.Promotion;
 
 public class PromotionCalculator {
 
+    private static final Integer INIT_VALUE = 0;
+    private static final Integer GET_EXTRA_FREE = -1;
+
     private final Product product;
     private final Promotion promotion;
     private final Integer amount;
@@ -17,29 +20,38 @@ public class PromotionCalculator {
     }
 
     public Payment calculate() {
-        int buy = promotion.getContent().getFirst();
-        int get = promotion.getContent().getLast();
+        if (amount > product.getQuantity()) {
+            int buyAmount = calculateAmount(product.getQuantity(), promotion.getBuy());
+            int freeAmount = calculateAmount(product.getQuantity(), promotion.getGet());
+            int extraAmount = product.getQuantity() - buyAmount - freeAmount;
+            int morePayAmount = amount - product.getQuantity();
+            product.setQuantity(product.getQuantity() - buyAmount - freeAmount);
 
-        if (product.getQuantity() >= amount) {
-            int buyAmount = calculateAmount(amount, buy);
-            int freeAmount = calculateAmount(amount, get);
-            int extraAmount = amount - buyAmount - freeAmount;
-            product.setQuantity(product.getQuantity() - buyAmount - freeAmount - extraAmount);
-
-            if (extraAmount == buy && product.getQuantity() >= get) {
-                return new Payment(buyAmount + extraAmount, freeAmount, product.getPrice(), -1);
-            }
-            return new Payment(buyAmount + extraAmount, freeAmount, product.getPrice(), 0);
+            return new Payment(buyAmount, freeAmount, product.getPrice(), extraAmount, morePayAmount);
         }
-        int buyAmount = calculateAmount(product.getQuantity(), buy);
-        int freeAmount = calculateAmount(product.getQuantity(), get);
-        int extraAmount = product.getQuantity() - buyAmount - freeAmount;
-        int extra = amount - product.getQuantity();
-        product.setQuantity(0);
-        return new Payment(buyAmount + extraAmount, freeAmount, product.getPrice(), extra);
+
+        int buyAmount = calculateAmount(amount, promotion.getBuy());
+        int freeAmount = calculateAmount(amount, promotion.getGet());
+        int extraAmount = amount - buyAmount - freeAmount;
+        product.setQuantity(product.getQuantity() - buyAmount - freeAmount);
+
+        if (canGetFree(extraAmount) && haveFreeAmount(extraAmount)) {
+            product.setQuantity(product.getQuantity() - buyAmount - freeAmount - extraAmount);
+            return new Payment(buyAmount + extraAmount, freeAmount, product.getPrice(), GET_EXTRA_FREE,
+                    INIT_VALUE);
+        }
+        return new Payment(buyAmount, freeAmount, product.getPrice(), extraAmount, INIT_VALUE);
+    }
+
+    private boolean canGetFree(Integer extraAmount) {
+        return extraAmount.equals(promotion.getBuy());
+    }
+
+    private boolean haveFreeAmount(Integer extraAmount) {
+        return product.getQuantity() - extraAmount >= promotion.getGet();
     }
 
     private Integer calculateAmount(int buyAmount, int buyOrGet) {
-        return buyAmount / (promotion.getContent().getFirst() + promotion.getContent().getLast()) * buyOrGet;
+        return buyAmount / (promotion.getBuy() + promotion.getGet()) * buyOrGet;
     }
 }

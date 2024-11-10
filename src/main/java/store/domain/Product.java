@@ -2,14 +2,24 @@ package store.domain;
 
 public class Product {
 
+    private static final String NOT_BUY = "null";
+
     private final Integer price;
-    private Integer quantity;
     private final String promotion;
+    private Integer quantity;
 
     public Product(Integer price, Integer quantity, String promotion) {
         this.price = price;
         this.quantity = quantity;
         this.promotion = promotion;
+    }
+
+    public boolean haveOriginOnly() {
+        return promotion.equals(NOT_BUY);
+    }
+
+    public String getPromotion() {
+        return promotion;
     }
 
     public Integer getPrice() {
@@ -18,10 +28,6 @@ public class Product {
 
     public Integer getQuantity() {
         return quantity;
-    }
-
-    public String getPromotion() {
-        return promotion;
     }
 
     public void setQuantity(Integer quantity) {

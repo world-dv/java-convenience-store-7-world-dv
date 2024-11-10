@@ -64,10 +64,10 @@ public class Result {
     private Integer calculatePromotionMembership() {
         int total = INIT_VALUE;
         if (promotionResult.getDateRange()) {
-            total += promotionResult.calculateTotalPrice();
+            return promotionResult.calculateTotalPrice();
         }
         if (promotionResult.getMembership()) {
-            total += promotionResult.getExtraPrice();
+            return promotionResult.getExtraPrice();
         }
         return total;
     }

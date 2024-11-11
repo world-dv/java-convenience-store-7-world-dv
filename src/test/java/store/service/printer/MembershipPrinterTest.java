@@ -19,10 +19,11 @@ class MembershipPrinterTest {
         Payment promotionResult = new Payment(3, 2, 1000, 2, 0);
         promotionResult.changeMembership();
         Result test = new Result(name, originalResult, promotionResult);
+        OriginalPrinter originalPrinter = new OriginalPrinter(List.of(test));
         MembershipPrinter membershipPrinter = new MembershipPrinter(List.of(test));
 
-        int trueResult = (int) ((5 + 2) * 1000 * 0.3);
-        int result = membershipPrinter.calculate("Y");
+        int trueResult = (int) (5 * 1000 * 0.3);
+        int result = membershipPrinter.calculate("Y", originalPrinter.calculateOriginal());
 
         assertThat(result).isEqualTo(trueResult);
     }
@@ -34,10 +35,11 @@ class MembershipPrinterTest {
         Payment promotionResult = new Payment(3, 2, 1000, 2, 0);
         promotionResult.changeDateRange();
         Result test = new Result(name, originalResult, promotionResult);
+        OriginalPrinter originalPrinter = new OriginalPrinter(List.of(test));
         MembershipPrinter membershipPrinter = new MembershipPrinter(List.of(test));
 
-        int trueResult = (int) (10 * 1000 * 0.3);
-        int result = membershipPrinter.calculate("Y");
+        int trueResult = (int) (5 * 1000 * 0.3);
+        int result = membershipPrinter.calculate("Y", originalPrinter.calculateOriginal());
 
         assertThat(result).isEqualTo(trueResult);
     }

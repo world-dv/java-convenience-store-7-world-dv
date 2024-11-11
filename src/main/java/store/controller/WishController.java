@@ -48,7 +48,7 @@ public class WishController {
             String items = inputView.readItem();
             return makeWish(items);
         } catch (IllegalArgumentException e) {
-            Output.printException(e);
+            System.out.println(e.getMessage());
         }
         return null;
     }

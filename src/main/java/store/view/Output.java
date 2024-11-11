@@ -9,18 +9,6 @@ import store.service.printer.TotalPrinter;
 
 public interface Output {
 
-    static void printMessage(PrintMessage printMessage) {
-        System.out.println(printMessage.getMessage());
-    }
-
-    static void printExtraMessage(PrintMessage printMessage, String name, int amount) {
-        System.out.printf(printMessage.getMessage(), name, amount);
-    }
-
-    static void printException(IllegalArgumentException exception) {
-        System.out.println(exception.getMessage());
-    }
-
     void printlnMessage(PrintMessage printMessage);
 
     void printProduct(HashMap<String, List<Product>> products);

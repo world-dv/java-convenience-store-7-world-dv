@@ -12,7 +12,7 @@ public class InputView implements Input {
 
     @Override
     public String readItem() {
-        Output.printMessage(PrintMessage.INPUT_ITEM_MESSAGE);
+        System.out.println(PrintMessage.INPUT_ITEM_MESSAGE.getMessage());
         return inputUser();
     }
 
@@ -20,7 +20,7 @@ public class InputView implements Input {
     public String readFree(String name, int amount) {
         while (true) {
             String input = inputFee(name, amount);
-            Output.printMessage(PrintMessage.LINE_SPACE);
+            System.out.println(PrintMessage.LINE_SPACE.getMessage());
             if (isNotInputNull(input)) {
                 return input;
             }
@@ -33,10 +33,11 @@ public class InputView implements Input {
 
     private String inputFee(String name, int amount) {
         try {
-            Output.printExtraMessage(PrintMessage.INPUT_EXTRA_FREE_MESSAGE, name, amount);
+            System.out.printf(PrintMessage.INPUT_EXTRA_FREE_MESSAGE.getMessage(), name, amount);
+            System.out.println(PrintMessage.LINE_SPACE.getMessage());
             return Validation.validateInput(inputUser());
         } catch (IllegalArgumentException e) {
-            Output.printException(e);
+            System.out.println(e.getMessage());
         }
         return null;
     }
@@ -45,7 +46,7 @@ public class InputView implements Input {
     public String readExtra(String name, int amount) {
         while (true) {
             String input = inputExtra(name, amount);
-            Output.printMessage(PrintMessage.LINE_SPACE);
+            System.out.println(PrintMessage.LINE_SPACE);
             if (isNotInputNull(input)) {
                 return input;
             }
@@ -54,10 +55,10 @@ public class InputView implements Input {
 
     private String inputExtra(String name, int amount) {
         try {
-            Output.printExtraMessage(PrintMessage.INPUT_EXTRA_PAY_MESSAGE, name, amount);
+            System.out.printf(PrintMessage.INPUT_EXTRA_PAY_MESSAGE.getMessage(), name, amount);
             return Validation.validateInput(inputUser());
         } catch (IllegalArgumentException e) {
-            Output.printException(e);
+            System.out.println(e.getMessage());
         }
         return null;
     }
@@ -66,7 +67,7 @@ public class InputView implements Input {
     public String readMembership() {
         while (true) {
             String input = inputMembership();
-            Output.printMessage(PrintMessage.LINE_SPACE);
+            System.out.println(PrintMessage.LINE_SPACE.getMessage());
             if (isNotInputNull(input)) {
                 return input;
             }
@@ -75,10 +76,10 @@ public class InputView implements Input {
 
     private String inputMembership() {
         try {
-            Output.printMessage(PrintMessage.INPUT_MEMBERSHIP_MESSAGE);
+            System.out.println(PrintMessage.INPUT_MEMBERSHIP_MESSAGE.getMessage());
             return Validation.validateInput(inputUser());
         } catch (IllegalArgumentException e) {
-            Output.printException(e);
+            System.out.println(e.getMessage());
         }
         return null;
     }
@@ -87,7 +88,7 @@ public class InputView implements Input {
     public String readRestart() {
         while (true) {
             String input = inputRestart();
-            Output.printMessage(PrintMessage.LINE_SPACE);
+            System.out.println(PrintMessage.LINE_SPACE.getMessage());
             if (isNotInputNull(input)) {
                 return input;
             }
@@ -96,10 +97,10 @@ public class InputView implements Input {
 
     private String inputRestart() {
         try {
-            Output.printMessage(PrintMessage.INPUT_RESTART_MESSAGE);
+            System.out.println(PrintMessage.INPUT_RESTART_MESSAGE.getMessage());
             return Validation.validateInput(inputUser());
         } catch (IllegalArgumentException e) {
-            Output.printException(e);
+            System.out.println(e.getMessage());
         }
         return null;
     }

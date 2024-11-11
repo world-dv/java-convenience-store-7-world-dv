@@ -72,6 +72,14 @@ public class Result {
         return total;
     }
 
+    public Integer calculateOriginal() {
+        int total = INIT_VALUE;
+        if (originalResult != null) {
+            total += originalResult.getBuyAmount() * originalResult.getPrice();
+        }
+        return total;
+    }
+
     public String getName() {
         return name;
     }

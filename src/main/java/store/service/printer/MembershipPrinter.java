@@ -16,19 +16,11 @@ public class MembershipPrinter {
         this.results = results;
     }
 
-    public Integer calculate(String input) {
+    public Integer calculate(String input, int price) {
         if (input.equals(TRUE)) {
-            return judgeMembership(calculateMembership());
+            return judgeMembership(calculateDiscount(price));
         }
         return INIT_VALUE;
-    }
-
-    private Integer calculateMembership() {
-        int total = 0;
-        for (Result result : results) {
-            total += result.calculateMembership();
-        }
-        return calculateDiscount(total);
     }
 
     private Integer judgeMembership(Integer discount) {

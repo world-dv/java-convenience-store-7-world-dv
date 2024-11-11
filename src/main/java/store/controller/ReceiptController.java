@@ -4,6 +4,7 @@ import java.util.List;
 import store.domain.Result;
 import store.service.printer.FreePrinter;
 import store.service.printer.MembershipPrinter;
+import store.service.printer.OriginalPrinter;
 import store.service.printer.TotalPrinter;
 import store.view.InputView;
 import store.view.OutputView;
@@ -25,8 +26,8 @@ public class ReceiptController {
         TotalPrinter totalPrinter = new TotalPrinter(results);
         FreePrinter freePrinter = new FreePrinter(results);
         MembershipPrinter membershipPrinter = new MembershipPrinter(results);
-        int membership = membershipPrinter.calculate(inputView.readMembership());
-
+        OriginalPrinter originalPrinter = new OriginalPrinter(results);
+        int membership = membershipPrinter.calculate(inputView.readMembership(), originalPrinter.calculateOriginal());
         printHead(totalPrinter, freePrinter);
         printBody(totalPrinter);
         printTail(totalPrinter.calculateTotalPrice(), freePrinter.calculateTotalFree(), membership);

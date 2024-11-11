@@ -25,7 +25,7 @@ public class ReceiptController {
     public void print() {
         TotalPrinter totalPrinter = new TotalPrinter(results);
         FreePrinter freePrinter = new FreePrinter(results);
-        MembershipPrinter membershipPrinter = new MembershipPrinter(results);
+        MembershipPrinter membershipPrinter = new MembershipPrinter();
         OriginalPrinter originalPrinter = new OriginalPrinter(results);
         int membership = membershipPrinter.calculate(inputView.readMembership(), originalPrinter.calculateOriginal());
         printHead(totalPrinter, freePrinter);

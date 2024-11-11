@@ -20,7 +20,7 @@ class MembershipPrinterTest {
         promotionResult.changeMembership();
         Result test = new Result(name, originalResult, promotionResult);
         OriginalPrinter originalPrinter = new OriginalPrinter(List.of(test));
-        MembershipPrinter membershipPrinter = new MembershipPrinter(List.of(test));
+        MembershipPrinter membershipPrinter = new MembershipPrinter();
 
         int trueResult = (int) (5 * 1000 * 0.3);
         int result = membershipPrinter.calculate("Y", originalPrinter.calculateOriginal());
@@ -36,7 +36,7 @@ class MembershipPrinterTest {
         promotionResult.changeDateRange();
         Result test = new Result(name, originalResult, promotionResult);
         OriginalPrinter originalPrinter = new OriginalPrinter(List.of(test));
-        MembershipPrinter membershipPrinter = new MembershipPrinter(List.of(test));
+        MembershipPrinter membershipPrinter = new MembershipPrinter();
 
         int trueResult = (int) (5 * 1000 * 0.3);
         int result = membershipPrinter.calculate("Y", originalPrinter.calculateOriginal());

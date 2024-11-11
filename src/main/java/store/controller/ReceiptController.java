@@ -47,10 +47,10 @@ public class ReceiptController {
     }
 
     private void printTail(int totalPrice, int freePrice, int membership) {
-        outputView.printDetail(PrintMessage.PROMOTION_DISCOUNT_PRICE, freePrice);
-        outputView.printDetail(PrintMessage.MEMBERSHIP_DISCOUNT_PRICE, membership);
+        outputView.printPromotion(freePrice);
+        outputView.printMembership(membership);
 
-        outputView.printDetail(PrintMessage.PAY_PRICE, totalPrice - freePrice - membership);
+        outputView.printPayMoney(totalPrice - freePrice - membership);
         outputView.printlnMessage(PrintMessage.LINE_SPACE);
     }
 }

@@ -90,7 +90,7 @@ public class OutputView implements Output {
     }
 
     private String setTotalDetail(TotalPrinter totalPrinter) {
-        return String.format(PrintMessage.TOTAL_PRICE.getMessage(),
+        return String.format(PrintMessage.TOTAL_PRICE.getMessage(), "총구매액",
                 totalPrinter.calculateTotalAmount(),
                 setDecimalFormat(totalPrinter.calculateTotalPrice()));
     }
@@ -107,5 +107,18 @@ public class OutputView implements Output {
     @Override
     public void printDetail(PrintMessage printMessage, int number) {
         System.out.println(setPrice(printMessage, number));
+    }
+
+    public void printMembership(Integer discount) {
+        System.out.printf((PrintMessage.MEMBERSHIP_DISCOUNT_PRICE.getMessage()) + "%n", "멤버십할인",
+                setDecimalFormat(discount));
+    }
+
+    public void printPayMoney(Integer discount) {
+        System.out.printf((PrintMessage.PAY_PRICE.getMessage()) + "%n", "내실돈", setDecimalFormat(discount));
+    }
+
+    public void printPromotion(Integer discount) {
+        System.out.printf((PrintMessage.PROMOTION_DISCOUNT_PRICE.getMessage()) + "%n", "행사할인", discount);
     }
 }

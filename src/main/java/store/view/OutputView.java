@@ -60,7 +60,7 @@ public class OutputView implements Output {
 
     private String setTotal(Total total) {
         return String.format(PrintMessage.WISH_DETAIL.getMessage(), total.name(),
-                setDecimalFormat(total.totalAmount()), setDecimalFormat(total.totalPrice()));
+                total.totalAmount(), setDecimalFormat(total.totalPrice()));
     }
 
     @Override
@@ -76,8 +76,7 @@ public class OutputView implements Output {
         if (free.totalAmount().equals(AMOUNT_NOT_FOUND)) {
             return null;
         }
-        return String.format(PrintMessage.FREE_DETAIL.getMessage(), free.name(),
-                setDecimalFormat(free.totalAmount()));
+        return String.format(PrintMessage.FREE_DETAIL.getMessage(), free.name(), free.totalAmount());
     }
 
     @Override
@@ -92,7 +91,7 @@ public class OutputView implements Output {
 
     private String setTotalDetail(TotalPrinter totalPrinter) {
         return String.format(PrintMessage.TOTAL_PRICE.getMessage(),
-                setDecimalFormat(totalPrinter.calculateTotalAmount()),
+                totalPrinter.calculateTotalAmount(),
                 setDecimalFormat(totalPrinter.calculateTotalPrice()));
     }
 

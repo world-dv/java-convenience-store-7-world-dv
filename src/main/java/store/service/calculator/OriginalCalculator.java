@@ -16,6 +16,11 @@ public class OriginalCalculator {
     }
 
     public Payment calculate() {
+        if (product.getQuantity() < amount) {
+            int extra = amount - product.getQuantity();
+            product.setQuantity(0);
+            return new Payment(amount, INIT_VALUE, product.getPrice(), extra, INIT_VALUE);
+        }
         updateQuantity();
         return createPayment();
     }

@@ -19,11 +19,24 @@ public class PromotionCalculator {
         this.amount = amount;
     }
 
-    public Payment calculate() {
+    public Payment calculate(boolean notPeriod) {
+        if (notPeriod) {
+            return calculateAmount();
+        }
         if (amount > product.getQuantity()) {
             return calculateOverAmount();
         }
         return calculateUnderAmount();
+    }
+
+    private Payment calculateAmount() {
+        if (amount > product.getQuantity()) {
+            int morePayAmount = amount - product.getQuantity();
+            product.setQuantity(0);
+            return new Payment(product.getQuantity(), 0, product.getPrice(), 0, morePayAmount);
+        }
+        product.setQuantity(product.getQuantity() - amount);
+        return new Payment(amount, 0, product.getPrice(), 0, 0);
     }
 
     private Payment calculateOverAmount() {
@@ -41,7 +54,7 @@ public class PromotionCalculator {
         int extraAmount = amount - buyAmount - freeAmount;
         product.setQuantity(product.getQuantity() - buyAmount - freeAmount);
         if (canGetFree(extraAmount) && haveFreeAmount(extraAmount)) {
-            product.setQuantity(product.getQuantity() - buyAmount - freeAmount - extraAmount);
+            product.setQuantity(product.getQuantity() - extraAmount);
             return new Payment(buyAmount + extraAmount, freeAmount, product.getPrice(), GET_EXTRA_FREE, INIT_VALUE);
         }
         return new Payment(buyAmount, freeAmount, product.getPrice(), extraAmount, INIT_VALUE);

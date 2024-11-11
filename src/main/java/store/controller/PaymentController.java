@@ -39,17 +39,21 @@ public class PaymentController {
     }
 
     private Result buyTwoWay(List<Product> buyProducts, Wish wish) {
+        Product originalProduct = findOriginal(buyProducts);
         Product promotionProduct = findPromotion(buyProducts);
         if (promotionProduct == null || promotionProduct.getQuantity().equals(NOT_FOUND)) {
-            return new Result(wish.name(), calculateOriginal(findOriginal(buyProducts), wish.amount()), NOT_THING);
+            return new Result(wish.name(), calculateOriginal(originalProduct, wish.amount()), NOT_THING);
         }
         Promotion promotion = promotions.get(promotionProduct.getPromotion());
+        if (runDateCalculate(promotion) && originalProduct.getQuantity() > 0) {
+            Payment originResult = calculateOriginal(originalProduct, wish.amount());
+            return runPromotion(wish, promotionProduct, originResult);
+        }
         Payment promotionResult = calculatePromotion(promotionProduct, promotion, wish.amount());
-        runDateCalculate(promotion, promotionResult);
-        return calculateResult(wish, promotion, promotionProduct, findOriginal(buyProducts), promotionResult);
+        return runOriginal(wish, promotion, promotionProduct, originalProduct, promotionResult);
     }
 
-    private Result calculateResult(Wish wish, Promotion promotion, Product promotionProduct, Product originalProduct,
+    private Result runOriginal(Wish wish, Promotion promotion, Product promotionProduct, Product originalProduct,
                                    Payment promotionResult) {
         if (promotionResult.haveExtraFree()) {
             return buyFree(wish, promotion, promotionProduct, promotionResult);
@@ -60,6 +64,13 @@ public class PaymentController {
         return new Result(wish.name(), NOT_THING, promotionResult);
     }
 
+    private Result runPromotion(Wish wish, Product promotionProduct, Payment originalResult) {
+        if (originalResult.haveExtra()) {
+            return buyExtraOriginal(wish, promotionProduct, originalResult);
+        }
+        return new Result(wish.name(), originalResult, NOT_THING);
+    }
+
     private Result buyFree(Wish wish, Promotion promotion, Product promotionProduct, Payment promotionResult) {
         String userAnswer = inputExtraFreeAnswer(wish, promotion);
         if (sayUserYes(userAnswer)) {
@@ -67,6 +78,15 @@ public class PaymentController {
             promotionResult.addFreeAmount(promotion.getGet());
         }
         return new Result(wish.name(), NOT_THING, promotionResult);
+    }
+
+    private Result buyExtraOriginal(Wish wish, Product promotionProduct, Payment payment) {
+        String userAnswer = inputExtraAnswer(wish, payment);
+        if (sayUserYes(userAnswer)) {
+            promotionProduct.setQuantity(promotionProduct.getQuantity() - payment.getExtraAmount());
+            payment.setBuyAmount(payment.getBuyAmount() + payment.getExtraAmount());
+        }
+        return new Result(wish.name(), payment, NOT_THING);
     }
 
     private Result buyExtra(Wish wish, Product promotionProduct, Product originalProduct, Payment payment) {
@@ -115,11 +135,11 @@ public class PaymentController {
 
     private Payment calculatePromotion(Product product, Promotion promotion, Integer amount) {
         PromotionCalculator promotionCalculator = new PromotionCalculator(product, promotion, amount);
-        return promotionCalculator.calculate();
+        return promotionCalculator.calculate(runDateCalculate(promotion));
     }
 
-    private void runDateCalculate(Promotion promotion, Payment promotionResult) {
-        DateCalculator dateCalculator = new DateCalculator(promotion, promotionResult);
-        dateCalculator.calculate();
+    private boolean runDateCalculate(Promotion promotion) {
+        DateCalculator dateCalculator = new DateCalculator(promotion);
+        return dateCalculator.calculate();
     }
 }

@@ -12,18 +12,18 @@ class OriginalCalculatorTest {
     @DisplayName("정가 결제 내역을 생성한다.")
     @Test
     void 정가_결제_내역을_생성한다() {
-        Product product = new Product(1000, 10, "반짝 할인");
+        Product product = new Product(1000, 10, "null");
         int buyAmount = 3;
 
         OriginalCalculator test = new OriginalCalculator(product, buyAmount);
 
         Payment trueResult = new Payment(3, 0, 1000, 0, 0);
+        Payment result = test.calculate();
 
-        assertThat(test.calculate().getBuyAmount()).isEqualTo(trueResult.getBuyAmount());
-        assertThat(test.calculate().getFreeAmount()).isEqualTo(trueResult.getFreeAmount());
-        assertThat(test.calculate().getExtraAmount()).isEqualTo(trueResult.getExtraAmount());
-        assertThat(test.calculate().getPrice()).isEqualTo(trueResult.getPrice());
-        assertThat(test.calculate().getExtraAmount()).isEqualTo(trueResult.getExtraAmount());
-        assertThat(test.calculate().getMorePayAmount()).isEqualTo(trueResult.getMorePayAmount());
+        assertThat(result.getBuyAmount()).isEqualTo(trueResult.getBuyAmount());
+        assertThat(result.getFreeAmount()).isEqualTo(trueResult.getFreeAmount());
+        assertThat(result.getExtraAmount()).isEqualTo(trueResult.getExtraAmount());
+        assertThat(result.getPrice()).isEqualTo(trueResult.getPrice());
+        assertThat(result.getMorePayAmount()).isEqualTo(trueResult.getMorePayAmount());
     }
 }

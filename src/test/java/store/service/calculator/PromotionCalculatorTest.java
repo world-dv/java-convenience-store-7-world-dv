@@ -28,7 +28,7 @@ class PromotionCalculatorTest {
         PromotionCalculator test = new PromotionCalculator(product, promotion, input);
         Payment trueResult = new Payment(6, 3, 1000, 1, 90);
 
-        Payment result = test.calculate();
+        Payment result = test.calculate(false);
 
         assertThat(result.getBuyAmount()).isEqualTo(trueResult.getBuyAmount());
         assertThat(result.getFreeAmount()).isEqualTo(trueResult.getFreeAmount());
@@ -44,7 +44,7 @@ class PromotionCalculatorTest {
         PromotionCalculator test = new PromotionCalculator(product, promotion, input);
         Payment trueResult = new Payment(2, 1, 1000, 0, 0);
 
-        Payment result = test.calculate();
+        Payment result = test.calculate(false);
 
         assertThat(result.getBuyAmount()).isEqualTo(trueResult.getBuyAmount());
         assertThat(result.getFreeAmount()).isEqualTo(trueResult.getFreeAmount());
@@ -60,7 +60,7 @@ class PromotionCalculatorTest {
         PromotionCalculator test = new PromotionCalculator(product, promotion, input);
         Payment trueResult = new Payment(2, 0, 1000, -1, 0);
 
-        Payment result = test.calculate();
+        Payment result = test.calculate(false);
 
         assertThat(result.getBuyAmount()).isEqualTo(trueResult.getBuyAmount());
         assertThat(result.getFreeAmount()).isEqualTo(trueResult.getFreeAmount());

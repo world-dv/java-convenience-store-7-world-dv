@@ -71,10 +71,6 @@ public class Payment {
         return freeAmount;
     }
 
-    public void setFreeAmount(Integer freeAmount) {
-        this.freeAmount = freeAmount;
-    }
-
     public Integer getPrice() {
         return price;
     }

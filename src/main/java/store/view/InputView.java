@@ -46,7 +46,7 @@ public class InputView implements Input {
     public String readExtra(String name, int amount) {
         while (true) {
             String input = inputExtra(name, amount);
-            System.out.println(PrintMessage.LINE_SPACE);
+            System.out.println(PrintMessage.LINE_SPACE.getMessage());
             if (isNotInputNull(input)) {
                 return input;
             }
@@ -56,6 +56,7 @@ public class InputView implements Input {
     private String inputExtra(String name, int amount) {
         try {
             System.out.printf(PrintMessage.INPUT_EXTRA_PAY_MESSAGE.getMessage(), name, amount);
+            System.out.println(PrintMessage.LINE_SPACE);
             return Validation.validateInput(inputUser());
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());

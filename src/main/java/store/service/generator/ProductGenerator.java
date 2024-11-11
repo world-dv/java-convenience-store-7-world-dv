@@ -15,6 +15,9 @@ public class ProductGenerator {
 
     private static final String PROPERTY_DIRECTORY = "user.dir";
     private static final String PRODUCT_FILE_PATH = "\\src\\main\\resources\\products.md";
+    private static final String NOT_PROMOTION = "null";
+    private static final Integer INIT_VALUE = 0;
+    private static final Integer ONLY_ONE = 1;
     private static final Integer PRICE = 1;
     private static final Integer QUANTITY = 2;
     private static final Integer PROMOTION = 3;
@@ -29,7 +32,7 @@ public class ProductGenerator {
         } catch (IOException e) {
             throw new IllegalArgumentException(ExceptionMessage.PRODUCT_FILE_READ_ERROR.getMessage());
         }
-        return products;
+        return addProduct();
     }
 
     private void readFile(BufferedReader file) throws IOException {
@@ -69,5 +72,32 @@ public class ProductGenerator {
 
     private Integer changeNumber(String number) {
         return Integer.parseInt(number);
+    }
+
+    private HashMap<String, List<Product>> addProduct() {
+        for (String name : products.keySet()) {
+            findNotPromotion(name);
+        }
+        return products;
+    }
+
+    private void findNotPromotion(String name) {
+        List<Product> product = products.get(name);
+        Product promotionProduct = product.getFirst();
+        if (checkPromotionOnly(product, promotionProduct)) {
+            product.add(createOriginal(promotionProduct.getPrice()));
+        }
+    }
+
+    private boolean checkPromotionOnly(List<Product> product, Product promotionProduct) {
+        return (product.size() == ONLY_ONE) && isPromotion(promotionProduct);
+    }
+
+    private boolean isPromotion(Product product) {
+        return (!product.getPromotion().equals(NOT_PROMOTION));
+    }
+
+    private Product createOriginal(int price) {
+        return new Product(price, INIT_VALUE, NOT_PROMOTION);
     }
 }

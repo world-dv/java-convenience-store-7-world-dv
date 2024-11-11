@@ -29,6 +29,7 @@ public class Application {
     public static void run(InputView inputView, OutputView outputView, HashMap<String, List<Product>> products,
                            HashMap<String, Promotion> promotions) {
         outputView.printlnMessage(PrintMessage.START_MESSAGE);
+        outputView.printlnMessage(PrintMessage.WELCOME_MESSAGE);
         outputView.printProduct(products);
         WishController itemController = new WishController(inputView, outputView, products);
         PaymentController payController = new PaymentController(inputView, products, promotions);

@@ -35,6 +35,7 @@ public class ReceiptController {
 
     private void printHead(TotalPrinter totalPrinter, FreePrinter freePrinter) {
         outputView.printlnMessage(PrintMessage.LINE_CONVENIENCE_STORE);
+        outputView.printlnMessage(PrintMessage.TABLE_SETTING);
         outputView.printTotal(totalPrinter.calculate());
         outputView.printlnMessage(PrintMessage.LINE_FREE);
         outputView.printFree(freePrinter.calculate());
